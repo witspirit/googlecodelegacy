@@ -1,0 +1,38 @@
+<html>
+<head>
+<script type="text/javascript">
+<!--
+// The Central Randomizer 1.3 (C) 1997 by Paul Houle (houle@msc.cornell.edu)
+// See:  http://www.msc.cornell.edu/~houle/JavaScript/randomizer.html
+rnd.today=new Date();
+rnd.seed=rnd.today.getTime();
+
+function rnd() {
+   rnd.seed = (rnd.seed*9301+49297) % 233280;
+   return rnd.seed/(233280.0);
+};
+
+function rand(number) {
+   return Math.ceil(rnd()*number);
+};
+
+// end central randomizer. -->
+</script>
+</head>
+<body bgcolor="256">
+<SCRIPT TYPE="text/javascript">
+<!--
+var imgs= new Array($images);
+function rotate()
+{
+document.f.p.src=imgs[rand(imgs.length)-1];
+setTimeout("rotate()",$timeout*1000);
+}
+onload=rotate;
+// -->
+</SCRIPT>
+<FORM NAME="f"><center><table align="center" height="1024">
+<TR><TD><IMG NAME="p" SRC=$firstSlide ALT="Some image" /></TD></TR>
+</table></center></FORM>
+</body>
+</html>

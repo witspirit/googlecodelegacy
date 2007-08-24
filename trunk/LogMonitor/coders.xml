@@ -1,0 +1,18 @@
+<Coders>
+    <DefaultEncoder>be.vanvlerken.bert.logmonitor.logging.NormalEncoder</DefaultEncoder>
+    <DefaultDecoder>be.vanvlerken.bert.logmonitor.logging.NormalDecoder</DefaultDecoder>
+    <Encoders>
+        <Encoder>be.vanvlerken.bert.logmonitor.logging.NullEncoder</Encoder>
+        <Encoder>be.vanvlerken.bert.logmonitor.logging.NormalEncoder</Encoder>
+    </Encoders>
+    <Decoders>
+        <Decoder>be.vanvlerken.bert.logmonitor.logging.NullDecoder</Decoder>
+        <Decoder>be.vanvlerken.bert.logmonitor.logging.NormalDecoder</Decoder>
+        <Decoder>be.vanvlerken.bert.logmonitor.logging.ProxyMonitorDecoder</Decoder>
+        <Decoder>be.vanvlerken.bert.logmonitor.logging.LogMessageDecoder</Decoder>
+        <Decoder>be.vanvlerken.bert.logmonitor.logging.LogMessageWithFileInfoDecoder</Decoder>
+        <Decoder>be.vanvlerken.bert.logmonitor.logging.Log4JDecoder</Decoder>
+        <Decoder>be.vanvlerken.bert.logmonitor.logging.Log4JXMLDecoder</Decoder>
+        <Decoder>be.vanvlerken.bert.logmonitor.logging.Log4JXMLWithThreadInfoDecoder</Decoder>
+    </Decoders>
+</Coders>

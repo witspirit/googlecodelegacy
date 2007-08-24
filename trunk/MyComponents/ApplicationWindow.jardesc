@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+    <jar path="D:/SoftwareDevelopment/Source/unversioned/JAVA/MyComponents/ApplicationWindow.jar"/>
+    <options overwrite="false" compress="true" exportErrors="false"
+        exportWarnings="false" saveDescription="true"
+        descriptionLocation="/MyComponents/ApplicationWindow.jardesc"
+        useSourceFolders="false" buildIfNeeded="true"/>
+    <manifest manifestVersion="1.0" usesManifest="true"
+        reuseManifest="true" saveManifest="true"
+        generateManifest="false" manifestLocation="/MyComponents/ApplicationWindow.manifest">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false">
+        <javaElement handleIdentifier="=MyComponents/src&lt;be.vanvlerken.bert.components.gui.applicationwindow"/>
+    </selectedElements>
+</jardesc>

@@ -1,0 +1,2 @@
+Flickr API Key : bdae6f62604345ebf22f6dccbf46057a
+Flickr API Shared secret: ec1cb33339588081

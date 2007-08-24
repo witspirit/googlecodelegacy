@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PacketDistributor>
+	<PacketDistributorAPI>be.vanvlerken.bert.packetdistributor.common.impl.direct.PdDummyInterface</PacketDistributorAPI>
+	<Relay>
+		<Name>Test</Name>
+		<Sources>
+			<Endpoint>
+				<IP>0.0.0.0</IP>
+				<Port>10000</Port>
+				<Protocol>UDP</Protocol>
+			</Endpoint>			
+		</Sources>		
+	</Relay>	
+</PacketDistributor>

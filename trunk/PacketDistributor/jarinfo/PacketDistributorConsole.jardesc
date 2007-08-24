@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+<jar path="D:/SoftwareDevelopment/Source/unversioned/JAVA/PacketDistributor/dist/PacketDistributorConsole.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/PacketDistributor/jarinfo/PacketDistributorConsole.jardesc" exportErrors="false" exportWarnings="false" overwrite="false" saveDescription="true" useSourceFolders="false"/>
+<manifest generateManifest="false" mainClassHandleIdentifier="=PacketDistributor/src&lt;be.vanvlerken.bert.packetdistributor.ui.console{PacketDistributor.java[PacketDistributor" manifestLocation="/PacketDistributor/jarinfo/PacketDistributorConsole.manifest" manifestVersion="1.0" reuseManifest="true" saveManifest="true" usesManifest="true">
+<sealing sealJar="false">
+<packagesToSeal/>
+<packagesToUnSeal/>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<file path="/PacketDistributor/src/log4j.properties"/>
+<javaElement handleIdentifier="=PacketDistributor/src&lt;be.vanvlerken.bert.packetdistributor.ui.console"/>
+</selectedElements>
+</jardesc>

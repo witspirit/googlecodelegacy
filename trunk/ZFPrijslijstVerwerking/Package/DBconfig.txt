@@ -1,0 +1,17 @@
+-- Table: prices
+
+-- DROP TABLE prices;
+
+CREATE TABLE prices
+(
+  product_number varchar(20) NOT NULL,
+  description varchar(100),
+  price float8 NOT NULL,
+  valid_since date NOT NULL,
+  CONSTRAINT prices_pkey PRIMARY KEY (product_number, valid_since)
+) 
+WITHOUT OIDS; -- for Postgres
+ALTER TABLE prices OWNER TO postgres;  -- for Postgres
+GRANT ALL ON TABLE prices TO postgres; -- for Postgres
+GRANT ALL ON TABLE prices TO GROUP zf; -- for Postgres
+

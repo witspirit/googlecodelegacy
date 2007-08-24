@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean name="JDBCDatabase" class="be.vanvlerken.bert.zfpricemgt.database.JdbcPriceDatabase" />
+	<bean name="TestDatabase" class="be.vanvlerken.bert.zfpricemgt.database.TestPriceDatabase" />
+	
+	<bean name="DatabaseStatistics" class="be.vanvlerken.bert.zfpricemgt.monitoring.DatabaseStatistics"/>
+	
+	<bean name="JMXStatistics" class="be.vanvlerken.bert.zfpricemgt.monitoring.JMXStatistics">
+		<constructor-arg type="be.vanvlerken.bert.zfpricemgt.monitoring.Statistic">
+			<bean name="statisticsObj" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+				<property name="targetObject"><ref bean="DatabaseStatistics"/></property>
+				<property name="targetMethod"><value>getStatistics</value></property>
+			</bean>
+		</constructor-arg>
+	</bean>
+	
+	<bean name="StatsDatabase, databaseInterface" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"
+		  depends-on="JMXStatistics">
+		<property name="targetObject"><ref bean="DatabaseStatistics"/></property>
+		<property name="targetMethod"><value>getDatabaseStatisticsProxy</value></property>
+		<property name="arguments"><ref bean="JDBCDatabase"/></property>
+	</bean>
+	
+	<!-- alias name="JDBCDatabase" alias="databaseInterface"/ -->
+</beans>

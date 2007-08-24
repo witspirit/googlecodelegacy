@@ -1,0 +1,56 @@
+<project name="generic_tools" default="message">
+
+	<target name="message">
+		<echo message="This build file is supposed to be included in another build file."/>
+		<echo message="It offers some basic build tasks"/>
+	</target>
+
+	<!-- ******************* -->
+	<!-- ***   Generic   *** -->
+	<!-- ******************* -->
+
+	<target name="generic.javac">
+		<mkdir dir="${javac.destdir}" />
+		<echo message="includes  :${javac.includes}" />
+		<echo message="excludes  :${javac.excludes}" />
+		<echo message="srcdir    :${javac.srcdir}" />
+		<echo message="destdir   :${javac.destdir}" />
+		<echo message="classpath :${javac.classpathref}" />
+		<javac includes="${javac.includes}" excludes="${javac.excludes}" srcdir="${javac.srcdir}" destdir="${javac.destdir}" classpathref="${javac.classpathref}" debug="${javac.debug}" optimize="${javac.optimize}" verbose="${javac.verbose}" source="1.4" includeAntRuntime="no" includeJavaRuntime="yes" fork="no" />
+	</target>
+
+	<target name="generic.manifest" depends="generic.manifest.always">
+		<manifest file="${manifest.destdir}/META-INF/MANIFEST.MF">			
+			<attribute name="Class-Path" value="${class.path}" />
+			<attribute name="${ant.project.name}-name" value="${manifest.modulename}" />
+			<attribute name="${ant.project.name}-os" value="${os.name} ${os.version}" />
+			<attribute name="${ant.project.name}-java-version" value="${ant.java.version}" />
+			<attribute name="${ant.project.name}-ant-version" value="${ant.version}" />
+			<attribute name="${ant.project.name}-date" value="${date}" />
+			<attribute name="${ant.project.name}-user-name" value="${user.name}" />
+		</manifest>
+	</target>
+
+	<target name="generic.manifest.withmain" depends="generic.manifest.always">
+		<manifest file="${manifest.destdir}/META-INF/MANIFEST.MF">			
+			<attribute name="Class-Path" value="${class.path}" />
+			<attribute name="Main-Class" value="${main.class}" />
+			<attribute name="${ant.project.name}-name" value="${manifest.modulename}" />
+			<attribute name="${ant.project.name}-os" value="${os.name} ${os.version}" />
+			<attribute name="${ant.project.name}-java-version" value="${ant.java.version}" />
+			<attribute name="${ant.project.name}-ant-version" value="${ant.version}" />
+			<attribute name="${ant.project.name}-date" value="${date}" />
+			<attribute name="${ant.project.name}-user-name" value="${user.name}" />
+		</manifest>
+	</target>	
+	
+	<target name="generic.manifest.always">
+		<tstamp>
+			<format property="date" pattern="zzz dd/MM/yyyy HH:mm" />
+		</tstamp>
+		<echo message="manifest destdir: ${manifest.destdir}/META-INF" />
+		<echo message="manifest file   : ${manifest.destdir}/META-INF/MANIFEST.MF}" />
+		<mkdir dir="${manifest.destdir}/META-INF" />
+	</target>
+	
+</project>

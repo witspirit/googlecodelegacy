@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+<jar path="D:/SoftwareDevelopment/Source/JAVA/SudokuSolver/dist/SudokuSolver.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/SudokuSolver/SudokuSolver.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" useSourceFolders="false"/>
+<manifest generateManifest="false" mainClassHandleIdentifier="=SudokuSolver/src&lt;be.vanvlerken.bert.sudokusolver{SudokuSolver.java[SudokuSolver" manifestLocation="/SudokuSolver/SudokuSolver.manifest" manifestVersion="1.0" reuseManifest="true" saveManifest="true" usesManifest="true">
+<sealing sealJar="true">
+<packagesToSeal/>
+<packagesToUnSeal/>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<javaElement handleIdentifier="=SudokuSolver/src"/>
+</selectedElements>
+</jardesc>

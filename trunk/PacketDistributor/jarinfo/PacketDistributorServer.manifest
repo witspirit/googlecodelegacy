@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+Main-Class: be.vanvlerken.bert.packetdistributor.server.PacketDistributorServer
+Class-Path: PacketDistributorCommon.jar lib/commons-logging.jar lib/log4j-1.2.9.jar lib/xpp3_min-1.1.3.4.I.jar lib/xstream-1.0.2.jar lib/aopalliance.jar lib/spring.jar

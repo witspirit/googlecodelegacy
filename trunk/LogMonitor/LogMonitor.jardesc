@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+    <jar path="C:\MyData\SoftwareDevelopment\Source\unversioned\JAVA\LogMonitor\distribution\LogMonitor.jar"/>
+    <options overwrite="false" compress="true" exportErrors="false"
+        exportWarnings="false" saveDescription="true"
+        descriptionLocation="/LogMonitor/LogMonitor.jardesc"
+        useSourceFolders="false" buildIfNeeded="true"/>
+    <manifest manifestVersion="1.0" usesManifest="true"
+        reuseManifest="true" saveManifest="true"
+        generateManifest="false"
+        manifestLocation="/LogMonitor/LogMonitor.manifest" mainClassHandleIdentifier="=LogMonitor/src&lt;be.vanvlerken.bert.logmonitor{LogMonitor.java[LogMonitor">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false">
+        <javaElement handleIdentifier="=LogMonitor/src"/>
+    </selectedElements>
+</jardesc>

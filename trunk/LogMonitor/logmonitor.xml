@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LogMonitor>
+    <Logging>
+        <Database>
+            <RespectNewlines>false</RespectNewlines>
+        </Database>
+        <Server>
+            <Type>be.vanvlerken.bert.logmonitor.logging.StringServer</Type>
+            <IP>0.0.0.0</IP>
+            <Port>10000</Port>
+            <Decoder>be.vanvlerken.bert.logmonitor.logging.Log4JDecoder</Decoder>
+        </Server>
+        <Levels>
+            <Error>true</Error>
+            <Warning>true</Warning>
+            <Info>true</Info>
+            <Verbose>true</Verbose>
+        </Levels>
+        <DisplayColors>
+            <Error>-65536</Error>
+            <Warning>-14336</Warning>
+            <Info>-6684673</Info>
+            <Verbose>-1</Verbose>
+        </DisplayColors>
+        <NewestAtTheTop>true</NewestAtTheTop>
+    </Logging>
+</LogMonitor>

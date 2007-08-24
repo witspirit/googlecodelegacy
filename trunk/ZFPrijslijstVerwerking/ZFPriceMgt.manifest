@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: be.vanvlerken.bert.zfpricemgt.ZFPriceMgt
+Class-Path: lib/log4j-1.2.9.jar lib/commons-logging-1.0.4.jar lib/ApplicationWindow.jar lib/mysql-connector-java-5.0.4-bin.jar lib/postgresql-8.0-310.jdbc3.jar lib/spring.jar
+
+

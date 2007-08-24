@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean name="Csv2007Importer" class="be.vanvlerken.bert.zfpricemgt.database.importers.Csv2007Importer" />
+	<bean name="Csv2005Importer" class="be.vanvlerken.bert.zfpricemgt.database.importers.Csv2005Importer" />
+	<bean name="NormalizedCsvImporter" class="be.vanvlerken.bert.zfpricemgt.database.importers.NormalizedCsvImporter" />
+	<bean name="Pdf2004Importer" class="be.vanvlerken.bert.zfpricemgt.database.importers.Pdf2004Importer" />
+	<bean name="NullImporter" class="be.vanvlerken.bert.zfpricemgt.database.importers.NullImporter" />
+	
+	<bean name="CsvExporter" class="be.vanvlerken.bert.zfpricemgt.database.exporters.CsvExporter" />
+	<bean name="LogExporter" class="be.vanvlerken.bert.zfpricemgt.database.exporters.LogExporter" />
+	<bean name="NullExporter" class="be.vanvlerken.bert.zfpricemgt.database.exporters.NullExporter" />	
+	
+	<bean name="ImportExportFactory" class="be.vanvlerken.bert.zfpricemgt.database.ImportExportFactory">
+		<constructor-arg type="be.vanvlerken.bert.zfpricemgt.database.importers.Importer">
+			<list>			
+				<ref bean="Csv2007Importer"/>
+				<ref bean="Csv2005Importer"/>
+				<ref bean="NormalizedCsvImporter"/>
+				<ref bean="Pdf2004Importer"/>
+			</list>
+		</constructor-arg>
+		<constructor-arg type="be.vanvlerken.bert.zfpricemgt.database.importers.Exporter">
+			<list>
+				<ref bean="CsvExporter"/>
+			</list>
+		</constructor-arg>		
+	</bean>	
+</beans>

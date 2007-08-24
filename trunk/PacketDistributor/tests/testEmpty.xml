@@ -1,0 +1,4 @@
+<PacketDistributor>
+  <PacketDistributorImpl>be.vanvlerken.bert.packetdistributor.common.impl.dummy.PdDummyInterface</PacketDistributorImpl>
+  <!-- No relays preconfigured. This is not necessary -->
+</PacketDistributor>

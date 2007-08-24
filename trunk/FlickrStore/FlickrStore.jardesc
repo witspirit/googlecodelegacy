@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+<jar path="D:/SoftwareDevelopment/Source/JAVA/FlickrStore/dist/flickrstore.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/FlickrStore/FlickrStore.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" useSourceFolders="false"/>
+<manifest generateManifest="false" mainClassHandleIdentifier="=FlickrStore/src&lt;be.vanvlerken.bert.flickrstore{FlickrStore.java[FlickrStore" manifestLocation="/FlickrStore/FlickrStore.manifest" manifestVersion="1.0" reuseManifest="true" saveManifest="true" usesManifest="true">
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<javaElement handleIdentifier="=FlickrStore/src&lt;be.vanvlerken.bert.flickrstore"/>
+<javaElement handleIdentifier="=FlickrStore/src&lt;be.vanvlerken.bert.flickrstore.gui.grouppoolselector"/>
+<javaElement handleIdentifier="=FlickrStore/src&lt;be.vanvlerken.bert.flickrstore.browser"/>
+<javaElement handleIdentifier="=FlickrStore/src&lt;be.vanvlerken.bert.flickrstore.store"/>
+<javaElement handleIdentifier="=FlickrStore/src&lt;resources"/>
+<javaElement handleIdentifier="=FlickrStore/src&lt;be.vanvlerken.bert.flickrstore.gui.photosetselector"/>
+<javaElement handleIdentifier="=FlickrStore/src&lt;be.vanvlerken.bert.flickrstore.login"/>
+<javaElement handleIdentifier="=FlickrStore/src&lt;be.vanvlerken.bert.flickrstore.gui"/>
+</selectedElements>
+</jardesc>

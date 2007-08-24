@@ -1,0 +1,14 @@
+ZF prijslijst 2004 
+ZF Belgien 
+Nummer Benaming Groep Brutto_prijs 
+5206 231 895 Testproduct1 01 1.98 € 
+5207 232 896 Testproduct2 01 1.34 € 
+5208 233 897 Testproduct3 01 8.64 € 
+5209 234 898 Testproduct4 01 3.46 € 
+5210 235 899 Testproduct5 01 2.11 € 
+5211 236 900 Testproduct6 01 2.50 € 
+5212 237 901 Testproduct7 01 17.66 € 
+5213 238 902 Testproduct8 01 0.38 € 
+5214 239 903 Testproduct9 01 9.28 € 
+5215 240 604 Testproduct10 01 12.86 € 
+Page: 1 van 1

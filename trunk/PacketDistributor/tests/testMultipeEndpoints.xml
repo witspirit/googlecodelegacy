@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PacketDistributor>
+	<PacketDistributorAPI>be.vanvlerken.bert.packetdistributor.common.impl.direct.PdDummyInterface</PacketDistributorAPI>
+	<Relay>
+		<Name>Test</Name>
+		<Sources>
+			<Endpoint>
+				<IP>0.0.0.0</IP>
+				<Port>10000</Port>
+				<Protocol>UDP</Protocol>
+			</Endpoint>
+			<Endpoint>
+				<IP>0.0.0.0</IP>
+				<Port>20000</Port>
+				<Protocol>UDP</Protocol>
+			</Endpoint>
+		</Sources>
+		<Destinations>
+			<Endpoint>
+				<IP>127.0.0.1</IP>
+				<Port>10001</Port>
+				<Protocol>UDP</Protocol>
+			</Endpoint>
+			<Endpoint>
+				<IP>127.0.0.1</IP>
+				<Port>20001</Port>
+				<Protocol>UDP</Protocol>
+			</Endpoint>
+		</Destinations>
+	</Relay>	
+</PacketDistributor>

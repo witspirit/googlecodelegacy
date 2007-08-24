@@ -1,0 +1,3 @@
+<PacketDistributor>
+  <PacketDistributorImpl>be.vanvlerken.bert.packetdistributor.common.impl.direct.PdDirectInterface</PacketDistributorImpl>
+</PacketDistributor>

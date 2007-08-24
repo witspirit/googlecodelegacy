@@ -1,0 +1,75 @@
+<project name="Physics" default="run" basedir=".">
+
+	<import file="generic_build.xml"/>
+	
+	<!-- ******************* -->
+	<!-- ***   prepare   *** -->
+	<!-- ******************* -->
+
+	<target name="prepare">
+		<mkdir dir="bin" />
+	</target>
+
+
+	<!-- ******************* -->
+	<!-- ***   compile   *** -->
+	<!-- ******************* -->
+
+	<path id="classpath">
+		<pathelement location="lib/ApplicationWindow.jar" />
+		<pathelement location="lib/log4j-1.2.8.jar" />
+	</path>
+
+	<target name="compile" depends="prepare">
+		<antcall target="generic.javac">
+			<param name="javac.srcdir" value="src" />
+			<param name="javac.destdir" value="bin" />
+			<param name="javac.classpathref" value="classpath" />
+			<param name="javac.includes" value="**/*.java" />
+		</antcall>
+	</target>
+
+	<!-- ********************************* -->
+	<!-- ***   build Physics.jar       *** -->
+	<!-- ********************************* -->
+
+	<target name="build" depends="compile">
+		<antcall target="generic.manifest.withmain">
+			<param name="manifest.destdir" value="lib" />
+			<param name="manifest.modulename" value="Physics.jar" />			
+			<param name="class.path" value="ApplicationWindow.jar log4j-1.2.8.jar" />
+			<param name="main.class" value="be.vanvlerken.bert.physics.Physics" />
+		</antcall>
+		<jar jarfile="lib/Physics.jar" manifest="lib/META-INF/MANIFEST.MF">
+			<fileset dir="bin" />
+			<fileset file="log4j.properties"/>
+		</jar>
+		<delete>
+			<fileset dir="lib/META-INF" />
+		</delete>
+	</target>
+
+	<!-- ******************* -->
+	<!-- ***   Run       *** -->
+	<!-- ******************* -->
+
+	<target name="run" depends="build">
+		<java jar="lib/Physics.jar" fork="true" />
+	</target>
+
+	<!-- ************************ -->
+	<!-- ***   cleaning up    *** -->
+	<!-- ************************ -->
+
+	<target name="clean.bin">
+		<delete dir="bin" />
+	</target>
+
+	<target name="clean.jar">
+		<delete file="lib/Physics.jar" />
+	</target>
+
+	<target name="clean.all" depends="clean.bin, clean.jar">
+	</target>
+	
+</project>

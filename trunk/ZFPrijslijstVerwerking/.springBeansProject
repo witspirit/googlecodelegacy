@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<configs>
+		<config>src/be/vanvlerken/bert/zfpricemgt/database/databaseFactory.xml</config>
+		<config>src/be/vanvlerken/bert/zfpricemgt/database/importExportFactory.xml</config>
+	</configs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>
