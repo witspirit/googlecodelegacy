@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="tests"/>
+	<classpathentry kind="lib" path="lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.9.jar"/>
+	<classpathentry kind="lib" path="lib/spring.jar"/>
+	<classpathentry kind="lib" path="lib/xpp3_min-1.1.3.4.I.jar"/>
+	<classpathentry kind="lib" path="lib/xstream-1.0.2.jar"/>
+	<classpathentry kind="var" path="JUNIT_HOME/junit.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MyComponents"/>
+	<classpathentry sourcepath="JRE_SRC" kind="var" path="JRE_LIB"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

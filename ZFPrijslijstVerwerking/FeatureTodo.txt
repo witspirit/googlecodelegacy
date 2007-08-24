@@ -1,0 +1,20 @@
+This file contains an overview of the features that still have to be implemented:
+
+01. DROPPED Hibernate based database access - Problems with delete, not worth the effort to solve
+02. DONE Export
+03. DONE Import of exported data
+04. DONE Marking of Old price information
+05. DONE Internationalization of ApplicationWindow
+
+06. DONE Performance enhancements
+06a.  DONE Bulk import
+06b.  DONE Bulk export
+
+07. DONE Graphical configuration of all settings
+08. DONE Print features
+09. PARTIAL Logging throughout application towards a log file 
+	-> Implemented for recent developments
+10. DONE Make the Csv2005Importer more tolerant for whitespace and quotes
+11. DONE Protect the application from multiple imports/exports
+12. Revamp import/export screens to mimic more Office like behavior (options IN file dialog)
+13. DONE Read and Store configuration data -> Use Preferences API !

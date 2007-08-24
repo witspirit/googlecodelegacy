@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean name="postgresConfig" class="be.vanvlerken.bert.zfpricemgt.database.JdbcDriverConfig">
+		<property name="description"><value>PostgreSql Database</value></property>
+		<property name="dbDriver"><value>org.postgresql.Driver</value></property>
+		<property name="dbUrl"><value>jdbc:postgresql://127.0.0.1:5432/zf</value></property>
+		<property name="dbUser"><value>zf</value></property>
+		<property name="dbPassword"><value>zfpassword</value></property>
+		<property name="pricesTable"><value>prices</value></property>		
+	</bean>
+	
+	<bean name="mySqlConfig" class="be.vanvlerken.bert.zfpricemgt.database.JdbcDriverConfig">
+		<property name="description"><value>MySql Database</value></property>
+		<property name="dbDriver"><value>com.mysql.jdbc.Driver</value></property>
+		<property name="dbUrl"><value>jdbc:mysql://127.0.0.1:3306/zf</value></property>
+		<property name="dbUser"><value>zf</value></property>
+		<property name="dbPassword"><value>zfpassword</value></property>
+		<property name="pricesTable"><value>prices</value></property>		
+	</bean>
+	
+	<bean id="driverList" class="org.springframework.beans.factory.config.ListFactoryBean">
+		<property name="sourceList">
+			<list>
+				<ref bean="postgresConfig"/>
+				<ref bean="mySqlConfig"/>
+			</list>
+		</property>
+	</bean>
+		
+</beans>

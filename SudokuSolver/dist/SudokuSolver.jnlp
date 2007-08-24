@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for SudokuSolver -->
+<jnlp
+  spec="1.0"
+  codebase="http://users.pandora.be/witspirit/dev/sudokusolver"
+  href="SudokuSolver.jnlp">
+
+  <information>
+    <title>SudokuSolver</title>
+    <vendor>Bert - witspirit - Van Vlerken</vendor>
+    <description kind="short">SudokuSolver allows you to enter a Sudoku and let the computer solve it</description>
+
+    <offline-allowed/>  
+  </information>
+
+  <security> 
+      <!-- all-permissions/ -->
+  </security>
+
+  <resources>
+    <j2se version="1.5+"/>
+    <jar href="SudokuSolver.jar"/>
+    <jar href="ApplicationWindow.jar"/>
+  </resources>
+
+  <application-desc main-class="be.vanvlerken.bert.sudokusolver.SudokuSolver"/>
+</jnlp>

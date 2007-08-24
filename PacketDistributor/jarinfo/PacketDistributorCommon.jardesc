@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+<jar path="D:/SoftwareDevelopment/Source/unversioned/JAVA/PacketDistributor/dist/PacketDistributorCommon.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/PacketDistributor/jarinfo/PacketDistributorCommon.jardesc" exportErrors="false" exportWarnings="false" overwrite="false" saveDescription="true" useSourceFolders="false"/>
+<manifest generateManifest="false" manifestLocation="/PacketDistributor/jarinfo/PacketDistributorCommon.manifest" manifestVersion="1.0" reuseManifest="true" saveManifest="true" usesManifest="true">
+<sealing sealJar="false">
+<packagesToSeal/>
+<packagesToUnSeal/>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<javaElement handleIdentifier="=PacketDistributor/src&lt;be.vanvlerken.bert.packetdistributor.common.rmi"/>
+<javaElement handleIdentifier="=PacketDistributor/src&lt;be.vanvlerken.bert.packetdistributor.common.impl.dummy"/>
+<javaElement handleIdentifier="=PacketDistributor/src&lt;be.vanvlerken.bert.packetdistributor.common.impl.direct"/>
+<javaElement handleIdentifier="=PacketDistributor/src&lt;be.vanvlerken.bert.packetdistributor.common"/>
+<file path="/PacketDistributor/src/log4j.properties"/>
+<javaElement handleIdentifier="=PacketDistributor/src&lt;be.vanvlerken.bert.packetdistributor.common.impl.rmi"/>
+<javaElement handleIdentifier="=PacketDistributor/src&lt;etc"/>
+<javaElement handleIdentifier="=PacketDistributor/src&lt;be.vanvlerken.bert.packetdistributor.common.configuration"/>
+</selectedElements>
+</jardesc>

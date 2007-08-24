@@ -1,0 +1,64 @@
+<html>
+<head>
+<script type="text/javascript">
+<!--
+var imgs= new Array($images);
+
+var index = 0;
+var slideshow = 0;
+var timeout = $timeout;	// 2 seconds
+
+function next()
+{
+index++;
+if ( index > imgs.length )
+{
+	index=0;
+}
+document.f.p.src=imgs[index];
+}
+
+function previous()
+{
+index--;
+if ( index < 0 )
+{
+	index=imgs.length;
+}
+document.f.p.src=imgs[index];
+}
+
+function toggleSlideshow()
+{
+	if ( slideshow > 0 )
+	{
+		slideshow = 0;
+	}
+	else
+	{
+		slideshow = 1;
+		advanceSlide();
+	}
+}
+
+function advanceSlide()
+{
+	if ( slideshow > 0 )
+	{
+		next();
+		setTimeout("advanceSlide()", timeout);
+	} 
+}
+
+// -->
+</script>
+</head>
+<body bgcolor="256">
+<FORM NAME="f"><center>
+<table align="center" height="768">
+<TR><TD ALIGN="CENTER"><A HREF="javascript:previous()">Previous</A> - <A HREF="javascript:toggleSlideshow()">Slideshow</A> - <A HREF="javascript:next()">Next</A></TD></TR>
+<TR><TD><IMG NAME="p" SRC=$firstSlide ALT="First slide" /></TD></TR>
+</table>
+</center></FORM>
+</body>
+</html>

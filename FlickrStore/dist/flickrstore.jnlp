@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for FlickrStore -->
+<jnlp
+  spec="1.0"
+  codebase="http://localhost/webstart"
+  href="flickrstore.jnlp">
+
+  <information>
+    <title>FlickrStore</title>
+    <vendor>Bert - witspirit - Van Vlerken</vendor>
+    <description kind="short">FlicrkStore allows the download of a complete PhotoSet or GroupPool to a local folder. Including metadata (which ends up in an XML file)</description>
+
+    <offline-allowed/>  
+  </information>
+
+	<!-- It's more than required, but its hard to define the precise permissions.
+	     Expect network access to Flickr, some J2SE controlled interaction with registry,
+	     and creation of files when downloading.
+     -->
+  <security> 
+      <all-permissions/>
+  </security>
+
+  <resources>
+    <j2se version="1.5+"/>
+    <jar href="flickrstore.jar"/>
+    <jar href="lib/ApplicationWindow.jar"/>
+    <jar href="lib/flickrapi-1.0a9.jar"/>
+    <jar href="lib/ostermillerutils_1_05_00.jar"/>
+    <jar href="lib/xpp3-1.1.3.4d_b4_min.jar"/>
+    <jar href="lib/xstream-1.1.2.jar"/>
+  </resources>
+
+  <application-desc main-class="be.vanvlerken.bert.flickrstore.FlickrStore"/>
+
+</jnlp>

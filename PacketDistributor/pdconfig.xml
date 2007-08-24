@@ -1,0 +1,5 @@
+<PacketDistributorGuiConfig>
+  <PacketDistributorInterface>1</PacketDistributorInterface>
+  <ConfigFile>packetdistributor.xml</ConfigFile>
+  <RmiUrl>rmi://localhost:1199/PacketDistributor</RmiUrl>
+</PacketDistributorGuiConfig>

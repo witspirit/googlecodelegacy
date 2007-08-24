@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: XmlParser2.jar log4j-1.3alpha.jar
+Main-Class: be.vanvlerken.bert.logmonitor.LogMonitor
+

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<configs>
+		<config>src/be/vanvlerken/bert/packetdistributor/client/spring.xml</config>
+		<config>src/be/vanvlerken/bert/packetdistributor/server/spring.xml</config>
+		<config>src/be/vanvlerken/bert/packetdistributor/ui/console/spring/spring.xml</config>
+	</configs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="Package/lib/commons-logging-1.0.4.jar"/>
+	<classpathentry kind="lib" path="Package/lib/log4j-1.2.9.jar"/>
+	<classpathentry kind="lib" path="Package/lib/postgresql-8.0-310.jdbc3.jar"/>
+	<classpathentry kind="lib" path="Package/lib/spring.jar"/>
+	<classpathentry kind="lib" path="Package/lib/ApplicationWindow.jar"/>
+	<classpathentry kind="lib" path="Package/lib/mysql-connector-java-5.0.4-bin.jar"/>
+	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

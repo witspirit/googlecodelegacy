@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jardesc>
+<jar path="E:/SoftwareDevelopment/Source/HomeProjects/ZFPrijslijstVerwerking/Package/ZFPriceMgt.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/ZFPrijslijstVerwerking/ZFPriceMgt.jardesc" exportErrors="false" exportWarnings="true" overwrite="false" saveDescription="true" useSourceFolders="false"/>
+<manifest generateManifest="false" mainClassHandleIdentifier="=ZFPrijslijstVerwerking/src&lt;be.vanvlerken.bert.zfpricemgt{ZFPriceMgt.java[ZFPriceMgt" manifestLocation="/ZFPrijslijstVerwerking/ZFPriceMgt.manifest" manifestVersion="1.0" reuseManifest="true" saveManifest="true" usesManifest="true">
+<sealing sealJar="false">
+<packagesToSeal/>
+<packagesToUnSeal/>
+</sealing>
+</manifest>
+<selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+<javaElement handleIdentifier="=ZFPrijslijstVerwerking/src"/>
+</selectedElements>
+</jardesc>

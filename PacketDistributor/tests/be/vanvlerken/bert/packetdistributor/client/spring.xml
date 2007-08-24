@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-dependency-check="none">
+	<bean id="PacketDistributorImpl" 
+		class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
+		<property name="serviceUrl">
+			<value>rmi://localhost:1199/PacketDistributor</value>
+		</property>
+		<property name="serviceInterface">
+			<value>be.vanvlerken.bert.packetdistributor.common.rmi.IRemotePacketDistributorAPI</value>
+		</property>
+	</bean>
+	
+	<bean id="localConfigDump" 
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod">
+			<value>be.vanvlerken.bert.packetdistributor.common.impl.rmi.MgtConfigurationDump.dumpConfiguration</value>
+		</property>
+		<property name="arguments">
+			<ref bean="PacketDistributorImpl"/>
+		</property>
+	</bean>
+</beans>

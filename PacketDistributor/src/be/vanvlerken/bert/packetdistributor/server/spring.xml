@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+	"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-dependency-check="none">
+	<bean id="pdFactory" 
+		class="be.vanvlerken.bert.packetdistributor.common.configuration.PacketDistributorFactory">
+		<constructor-arg>
+			<value>packetdistributor.xml</value>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="PacketDistributorImpl" 
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="targetObject">
+			<ref bean="pdFactory" />
+		</property>
+		<property name="targetMethod">
+			<value>getPacketDistributorAPI</value>
+		</property>
+	</bean>
+	
+	<bean id="PacketDistributorMgt" class="be.vanvlerken.bert.packetdistributor.common.impl.rmi.RMIPacketDistributor">
+		<constructor-arg><ref bean="PacketDistributorImpl"/></constructor-arg>
+	</bean>
+
+	<bean id="rmiExport" 
+		class="org.springframework.remoting.rmi.RmiServiceExporter">
+		<property name="serviceName">
+			<value>PacketDistributor</value>
+		</property>
+		<property name="service">
+			<ref bean="PacketDistributorMgt"/>
+		</property>
+		<property name="serviceInterface">
+			<value>be.vanvlerken.bert.packetdistributor.common.rmi.IRemotePacketDistributorAPI</value>
+		</property>
+		<!-- defaults to 1099 -->
+		<property name="registryPort">
+			<value>1199</value>
+		</property>
+	</bean>
+	
+	<bean id="localConfigDump" 
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod">
+			<value>be.vanvlerken.bert.packetdistributor.common.configuration.ConfigurationDump.dumpConfiguration</value>
+		</property>
+		<property name="arguments">
+			<ref bean="PacketDistributorImpl"/>
+		</property>
+	</bean>
+	
+	<bean id="MgtConfigDump" 
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod">
+			<value>be.vanvlerken.bert.packetdistributor.common.impl.rmi.MgtConfigurationDump.dumpConfiguration</value>
+		</property>
+		<property name="arguments">
+			<ref bean="PacketDistributorMgt"/>
+		</property>
+	</bean>
+</beans>
