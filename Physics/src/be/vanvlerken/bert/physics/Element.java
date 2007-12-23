@@ -12,221 +12,208 @@ import org.apache.log4j.Logger;
 /**
  * Models an Element entity that can float around in TheGrid
  */
-public class Element
-{
+public class Element {
     private static final Logger logger = Logger.getLogger(Element.class);
 
-    private double              x;
-    private double              y;
-    private int                 radius;
+    private final long id;
 
-    private double              Xspeed = 0;
-    private double              Yspeed = 0;
+    private double x;
+    private double y;
+    private int radius;
 
-    public static Element createRandomElement(int width, int height)
-    {
-        Element el;
+    private double Xspeed = 0;
+    private double Yspeed = 0;
 
-        int radius = (int) Math
-                .round((Math.random() * PhysicsParameters.maxRadius) + 0.5);
-        double x = radius + Math.random() * (width - radius * 2);
-        double y = radius + Math.random() * (height - radius * 2);
-        double xSpeed = -PhysicsParameters.maxInitialSpeed
-                + (Math.random() * (2*PhysicsParameters.maxInitialSpeed));
-        double ySpeed = -PhysicsParameters.maxInitialSpeed
-                + (Math.random() * (2*PhysicsParameters.maxInitialSpeed));
+    public static Element createRandomElement(int width, int height) {
+	Element el;
 
-        logger.debug("Random generated values: x=" + x + ", y=" + y + ", Vx = "
-                + xSpeed + ", Vy = " + ySpeed + ",r=" + radius);
+	int radius = (int) Math.round((Math.random() * PhysicsParameters.maxRadius) + 0.5);
+	double x = radius + Math.random() * (width - radius * 2);
+	double y = radius + Math.random() * (height - radius * 2);
+	double xSpeed = -PhysicsParameters.maxInitialSpeed + (Math.random() * (2 * PhysicsParameters.maxInitialSpeed));
+	double ySpeed = -PhysicsParameters.maxInitialSpeed + (Math.random() * (2 * PhysicsParameters.maxInitialSpeed));
 
-        el = new Element(x, y, xSpeed, ySpeed, radius);
-        return el;
+	logger.debug("Random generated values: x=" + x + ", y=" + y + ", Vx = " + xSpeed + ", Vy = " + ySpeed + ",r=" + radius);
+
+	el = new Element(x, y, xSpeed, ySpeed, radius);
+	return el;
     }
 
-    public Element(double x, double y, double xSpeed, double ySpeed, int radius)
-    {
-        this.x = x;
-        this.y = y;
-        this.Xspeed = xSpeed;
-        this.Yspeed = ySpeed;
-        this.radius = radius;
+    public Element(double x, double y, double xSpeed, double ySpeed, int radius) {
+	this.id = System.nanoTime(); // Very cheap id
+	this.x = x;
+	this.y = y;
+	this.Xspeed = xSpeed;
+	this.Yspeed = ySpeed;
+	this.radius = radius;
+
+	if (logger.isDebugEnabled()) {
+	    logger.debug("Element created: " + this);
+	}
     }
 
-    public void applyGravity(double g)
-    {
-        // x = x0 + v0*t + 1/2*a*t*t -> x = x + Yspeed*1s + 1/2*g*1s
-        y = PhysicsFormulas.calculateNewLocationGravity(y,
-                PhysicsParameters.timeStep, g);
+    public void applyGravity(double g) {
+	// x = x0 + v0*t + 1/2*a*t*t -> x = x + Yspeed*1s + 1/2*g*1s
+	y = PhysicsFormulas.calculateNewLocationGravity(y, g, PhysicsParameters.timeStep);
 
-        // v = v0 + a*t -> Yspeed = Yspeed + g*1s
-        Yspeed = PhysicsFormulas.calculateNewSpeed(Yspeed,
-                PhysicsParameters.timeStep, g);
+	// v = v0 + a*t -> Yspeed = Yspeed + g*1s
+	Yspeed = PhysicsFormulas.calculateNewSpeed(Yspeed, g, PhysicsParameters.timeStep);
+
+	if (logger.isDebugEnabled()) {
+	    logger.debug("Gravity applied: " + this);
+	}
     }
 
-    public void applySpeed(double g)
-    {
-        // x = x0 + v0*t + 1/2*a*t*t -> x = x + Yspeed*1s + 1/2*g*1s
-        y = PhysicsFormulas.calculateNewLocationSpeed(y, Yspeed,
-                PhysicsParameters.timeStep);
+    public void applySpeed() {
+	// x = x0 + v0*t + 1/2*a*t*t -> x = x + Yspeed*1s + 1/2*g*1s
+	y = PhysicsFormulas.calculateNewLocationSpeed(y, Yspeed, PhysicsParameters.timeStep);
 
-        x = PhysicsFormulas.calculateNewLocationSpeed(x, Xspeed,
-                PhysicsParameters.timeStep);
+	x = PhysicsFormulas.calculateNewLocationSpeed(x, Xspeed, PhysicsParameters.timeStep);
+
+	if (logger.isDebugEnabled()) {
+	    logger.debug("Speed applied: " + this);
+	}
     }
 
     /**
-     * Checks if the Element bumps into the bounds and calculates change in
-     * state accordingly
+     * Checks if the Element bumps into the bounds and calculates change in state accordingly
      * 
      * @param width
      * @param height
      */
-    public boolean applyBounds(int width, int height)
-    {
-        boolean boundsReached = false;
+    public boolean applyBounds(int width, int height) {
+	boolean boundsReached = false;
 
-        double minX = x - radius;
-        double maxX = x + radius;
+	double minX = x - radius;
+	double maxX = x + radius;
 
-        double minY = y - radius;
-        double maxY = y + radius;
+	double minY = y - radius;
+	double maxY = y + radius;
 
-        if (minX <= 0 || maxX >= width)
-        {
-            if (PhysicsParameters.transparentBounds)
-            {
-                if (minX <= 0)
-                {
-                    x += width;
-                }
-                else
-                {
-                    x -= width;
-                }
-            }
-            else
-            {
-                // Collision against left or right wall...
-                Xspeed = PhysicsFormulas.calculateCollisionSpeed(
-                        PhysicsFormulas.INFINITE_MASS, this.radius, 0, Xspeed);
-            }
+	if (minX <= 0 || maxX >= width) {
+	    if (PhysicsParameters.transparentBounds) {
+		if (minX <= 0) {
+		    x += width;
+		} else {
+		    x -= width;
+		}
+	    } else {
+		// Collision against left or right wall...
+		Xspeed = PhysicsFormulas.calculateCollisionSpeed(this.radius, Xspeed, PhysicsFormulas.INFINITE_MASS, 0);
+	    }
+	    boundsReached = true;
+	}
 
-            boundsReached = true;
-        }
+	if (minY <= 0 || maxY >= height) {
+	    if (PhysicsParameters.transparentBounds) {
+		if (minY <= 0) {
+		    y += width;
+		} else {
+		    y -= width;
+		}
+	    } else {
+		// Collision against top or bottom wall...
+		Yspeed = PhysicsFormulas.calculateCollisionSpeed(this.radius, Yspeed, PhysicsFormulas.INFINITE_MASS, 0);
+	    }
+	    boundsReached = true;
+	}
 
-        if (minY <= 0 || maxY >= height)
-        {
-            if (PhysicsParameters.transparentBounds)
-            {
-                if (minY <= 0)
-                {
-                    y += width;
-                }
-                else
-                {
-                    y -= width;
-                }
-            }
-            else
-            {
-
-                // Collision against top or bottom wall...
-                Yspeed = PhysicsFormulas.calculateCollisionSpeed(
-                        PhysicsFormulas.INFINITE_MASS, this.radius, 0, Yspeed);
-            }
-            
-            boundsReached = true;
-        }
-
-        return boundsReached;
+	if (logger.isDebugEnabled()) {
+	    logger.debug("Bounds applied: " + this);
+	}
+	return boundsReached;
     }
 
-    public void applyCollision(Element element)
-    {
-        // Totally elastic collision
-        Xspeed = PhysicsFormulas.calculateCollisionSpeed(element.radius,
-                this.radius, element.Xspeed, this.Xspeed);
-        Yspeed = PhysicsFormulas.calculateCollisionSpeed(element.radius,
-                this.radius, element.Yspeed, this.Yspeed);
+    public void applyCollision(Element element) {
+	// Totally elastic collision
+	Xspeed = PhysicsFormulas.calculateCollisionSpeed(this.radius, this.Xspeed, element.radius, element.Xspeed);
+	Yspeed = PhysicsFormulas.calculateCollisionSpeed(this.radius, this.Yspeed, element.radius, element.Yspeed);
+
+	if (logger.isDebugEnabled()) {
+	    logger.debug("Collision with " + element + " applied: " + this);
+	}
     }
 
     /**
      * @param element
      * @return
      */
-    private double getDistanceTo(Element element)
-    {
-        double h = Math.abs(this.x - element.x);
-        double v = Math.abs(this.y - element.y);
+    private double getDistanceTo(Element element) {
+	double h = Math.abs(this.x - element.x);
+	double v = Math.abs(this.y - element.y);
 
-        double distance = Math.sqrt(h * h + v * v);
+	double distance = Math.sqrt(h * h + v * v);
 
-        return distance;
+	return distance;
     }
 
-    public boolean overlap(Element element)
-    {
-        double distance = getDistanceTo(element);
-        double minDistance = element.radius + this.radius;
+    public boolean overlap(Element element) {
+	double distance = getDistanceTo(element);
+	double minDistance = element.radius + this.radius;
 
-        if (distance > minDistance)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+	if (distance > minDistance) {
+	    return false;
+	} else {
+	    return true;
+	}
     }
 
-    public void draw(Graphics g, int xOffset, int yOffset)
-    {
-        int pixelX = (int) Math.round(x) + xOffset;
-        int pixelY = (int) Math.round(y) + yOffset;
-        g.fillOval(pixelX - radius, pixelY - radius, radius * 2, radius * 2);
+    public void draw(Graphics g, int xOffset, int yOffset) {
+	int pixelX = (int) Math.round(x) + xOffset;
+	int pixelY = (int) Math.round(y) + yOffset;
+	g.fillOval(pixelX - radius, pixelY - radius, radius * 2, radius * 2);
     }
 
-    public Element(Element el)
-    {
-        this.x = el.x;
-        this.y = el.y;
-        this.radius = el.radius;
+    public Element(Element el) {
+	this.id = System.nanoTime(); // Very cheap id - A NEW one !
+	this.x = el.x;
+	this.y = el.y;
+	this.radius = el.radius;
 
-        this.Xspeed = el.Xspeed;
-        this.Yspeed = el.Yspeed;
+	this.Xspeed = el.Xspeed;
+	this.Yspeed = el.Yspeed;
     }
 
     /**
      * @param width
      * @param height
      */
-    public void placeWithinBounds(int width, int height)
-    {
-        double minX = x - radius;
-        double maxX = x + radius;
+    public void placeWithinBounds(int width, int height) {
+	double minX = x - radius;
+	double maxX = x + radius;
 
-        double minY = y - radius;
-        double maxY = y + radius;
+	double minY = y - radius;
+	double maxY = y + radius;
 
-        if (minX <= 0)
-        {
-            // Collision against left wall...
-            x = radius;
-        }
-        else if (maxX >= width)
-        {
-            // Collision against right wall...
-            x = width - radius;
-        }
+	if (minX <= 0) {
+	    // Collision against left wall...
+	    x = radius;
+	} else if (maxX >= width) {
+	    // Collision against right wall...
+	    x = width - radius;
+	}
 
-        if (minY <= 0)
-        {
-            // Collision against top wall...
-            y = radius;
-        }
-        else if (maxY >= height)
-        {
-            // Collision against bottom wall...
-            y = height - radius;
-        }
+	if (minY <= 0) {
+	    // Collision against top wall...
+	    y = radius;
+	} else if (maxY >= height) {
+	    // Collision against bottom wall...
+	    y = height - radius;
+	}
+    }
+
+    public long getId() {
+	return id;
+    }
+
+    @Override
+    public String toString() {
+	StringBuilder builder = new StringBuilder();
+	builder.append("Element[").append(id).append("](")
+		.append("x=").append(x).append(", y=").append(y)
+		.append(", vX=").append(Xspeed).append(", vY=").append(Yspeed)
+		.append(", r=").append(radius)
+		.append(")");
+	return builder.toString();
     }
 }
