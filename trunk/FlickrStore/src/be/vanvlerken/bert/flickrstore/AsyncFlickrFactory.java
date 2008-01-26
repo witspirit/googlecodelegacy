@@ -12,37 +12,32 @@ import be.vanvlerken.bert.flickrstore.login.AuthenticatedExecutor;
 import be.vanvlerken.bert.flickrstore.login.AuthorizationHandler;
 import be.vanvlerken.bert.flickrstore.store.AsyncStore;
 
-public class AsyncFlickrFactory extends FlickrFactory
-{
+public class AsyncFlickrFactory extends FlickrFactory {
     private AsyncLoginManager loginManager;
-    private AsyncBrowser      browser;
-    private AsyncStore        store;
+    private AsyncBrowser browser;
+    private AsyncStore store;
 
-    private AuthenticatedExecutor   executor;
+    private AuthenticatedExecutor executor;
 
-    public AsyncFlickrFactory(AuthorizationHandler authHandler)
-    {
-        super();
-        SyncFlickrFactory flickrFactory = new SyncFlickrFactory();
-        executor = new AuthenticatedExecutor(flickrFactory.getLoginManager(), authHandler);
+    public AsyncFlickrFactory(AuthorizationHandler authHandler) {
+	super();
+	SyncFlickrFactory flickrFactory = new SyncFlickrFactory();
+	executor = new AuthenticatedExecutor(flickrFactory.getLoginManager(), authHandler);
 
-        loginManager = new AsyncLoginManager(executor, flickrFactory.getLoginManager());
-        browser = new AsyncBrowser(executor, flickrFactory.getBrowser());
-        store = new AsyncStore(executor, flickrFactory.getStore());
-    }
-    
-    public AsyncLoginManager getLoginManager()
-    {
-        return loginManager;
+	loginManager = new AsyncLoginManager(executor, flickrFactory.getLoginManager());
+	browser = new AsyncBrowser(executor, flickrFactory.getBrowser());
+	store = new AsyncStore(executor, flickrFactory.getStore());
     }
 
-    public AsyncBrowser getBrowser()
-    {
-        return browser;
+    public AsyncLoginManager getLoginManager() {
+	return loginManager;
     }
 
-    public AsyncStore getStore()
-    {
-        return store;
+    public AsyncBrowser getBrowser() {
+	return browser;
+    }
+
+    public AsyncStore getStore() {
+	return store;
     }
 }

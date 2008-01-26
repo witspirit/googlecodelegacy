@@ -6,16 +6,12 @@
 
 package be.vanvlerken.bert.flickrstore.store;
 
-
-public class DummyStoreProgress implements StoreProgress
-{
-    public void setMaximum(int max)
-    {
-        // Do nothing
+public class DummyStoreProgress implements StoreProgress {
+    public void setMaximum(int max) {
+	// Do nothing
     }
 
-    public void setCurrent(int current)
-    {
-        // Do nothing
+    public void setCurrent(int current) {
+	// Do nothing
     }
 }

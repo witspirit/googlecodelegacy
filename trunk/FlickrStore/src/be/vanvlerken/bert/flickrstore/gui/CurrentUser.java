@@ -10,29 +10,23 @@ import java.util.Observable;
 
 import be.vanvlerken.bert.flickrstore.login.FlickrUser;
 
-
-public class CurrentUser extends Observable
-{
+public class CurrentUser extends Observable {
     private FlickrUser flickrUser;
-    
-    public CurrentUser(FlickrUser flickrUser)
-    {
-        this.flickrUser = flickrUser;
+
+    public CurrentUser(FlickrUser flickrUser) {
+	this.flickrUser = flickrUser;
     }
-    
-    public FlickrUser getFlickrUser()
-    {
-        return flickrUser;
+
+    public FlickrUser getFlickrUser() {
+	return flickrUser;
     }
-    
-    public void changeUser(FlickrUser flickrUser)
-    {
-        if ( this.flickrUser != flickrUser && !this.flickrUser.equals(flickrUser) )
-        {
-            this.flickrUser = flickrUser;
-            setChanged();
-            notifyObservers();            
-        }
+
+    public void changeUser(FlickrUser flickrUser) {
+	if (this.flickrUser != flickrUser && !this.flickrUser.equals(flickrUser)) {
+	    this.flickrUser = flickrUser;
+	    setChanged();
+	    notifyObservers();
+	}
     }
 
 }
