@@ -1,4 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: be.vanvlerken.bert.flickrstore.FlickrStore
-Class-Path: lib/flickrapi-1.0a9.jar lib/ApplicationWindow.jar lib/ostermillerutils_1_05_00.jar lib/xpp3-1.1.3.4d_b4_min.jar lib/xstream-1.1.2.jar
+Class-Path: lib/flickrapi-1.0.jar lib/ApplicationWindow.jar lib/ostermillerutils_1_05_00.jar lib/xpp3-1.1.3.4d_b4_min.jar lib/xstream-1.1.2.jar
 

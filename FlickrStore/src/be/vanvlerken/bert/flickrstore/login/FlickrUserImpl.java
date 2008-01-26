@@ -28,15 +28,15 @@ public class FlickrUserImpl implements FlickrUser
     {
         return user.getAwayMessage();
     }
-    public int getBandwidthMax()
+    public long getBandwidthMax()
     {
         return user.getBandwidthMax();
     }
-    public int getBandwidthUsed()
+    public long getBandwidthUsed()
     {
         return user.getBandwidthUsed();
     }
-    public int getFilesizeMax()
+    public long getFilesizeMax()
     {
         return user.getFilesizeMax();
     }
