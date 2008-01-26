@@ -6,6 +6,6 @@
 	<classpathentry kind="lib" path="lib/ostermillerutils_1_05_00.jar"/>
 	<classpathentry kind="lib" path="lib/ApplicationWindow.jar"/>
 	<classpathentry kind="lib" path="lib/flickrapi-1.0.jar"/>
-	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
