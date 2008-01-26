@@ -12,53 +12,46 @@ import java.util.Observable;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-public class PhotosetDescription extends Observable
-{
+public class PhotosetDescription extends Observable {
     public static final int UNKNOWN = -1;
-    
+
     private Icon icon;
     private int photocount;
     private String title;
     private String description;
-    
-    public PhotosetDescription()
-    {
-        URL imageUrl = this.getClass().getClassLoader().getResource("resources/FlickrIcon.png");
-        icon = new ImageIcon(imageUrl);
-        
-        title = "No PhotoSet selected yet";
-        description = null;
-        photocount = UNKNOWN;
-    }
-    
-    public void updateDescription(Icon icon, String title, String description, int photocount)
-    {
-        this.icon = icon;
-        this.title = title;
-        this.description = description;
-        this.photocount = photocount;
-        
-        this.setChanged();
-        this.notifyObservers();
-    }
-    
-    public Icon getIcon()
-    {
-        return icon;
+
+    public PhotosetDescription() {
+	URL imageUrl = this.getClass().getClassLoader().getResource("resources/FlickrIcon.png");
+	icon = new ImageIcon(imageUrl);
+
+	title = "No PhotoSet selected yet";
+	description = null;
+	photocount = UNKNOWN;
     }
 
-    public int getPhotocount()
-    {
-        return photocount;
+    public void updateDescription(Icon icon, String title, String description, int photocount) {
+	this.icon = icon;
+	this.title = title;
+	this.description = description;
+	this.photocount = photocount;
+
+	this.setChanged();
+	this.notifyObservers();
     }
 
-    public String getTitle()
-    {
-        return title;
+    public Icon getIcon() {
+	return icon;
     }
 
-    public String getDescription()
-    {
-        return description;
+    public int getPhotocount() {
+	return photocount;
+    }
+
+    public String getTitle() {
+	return title;
+    }
+
+    public String getDescription() {
+	return description;
     }
 }

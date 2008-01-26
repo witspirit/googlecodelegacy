@@ -11,78 +11,74 @@ import java.util.Date;
 import com.aetrion.flickr.contacts.OnlineStatus;
 import com.aetrion.flickr.people.User;
 
-
-public class FlickrUserImpl implements FlickrUser
-{
+public class FlickrUserImpl implements FlickrUser {
     private User user;
-    
-    public FlickrUserImpl(User user)
-    {
-        super();
-        this.user = user;
+
+    public FlickrUserImpl(User user) {
+	super();
+	this.user = user;
     }
-    
+
     // Delegators
-    
-    public String getAwayMessage()
-    {
-        return user.getAwayMessage();
+
+    public String getAwayMessage() {
+	return user.getAwayMessage();
     }
-    public long getBandwidthMax()
-    {
-        return user.getBandwidthMax();
+
+    public long getBandwidthMax() {
+	return user.getBandwidthMax();
     }
-    public long getBandwidthUsed()
-    {
-        return user.getBandwidthUsed();
+
+    public long getBandwidthUsed() {
+	return user.getBandwidthUsed();
     }
-    public long getFilesizeMax()
-    {
-        return user.getFilesizeMax();
+
+    public long getFilesizeMax() {
+	return user.getFilesizeMax();
     }
-    public int getIconServer()
-    {
-        return user.getIconServer();
+
+    public int getIconServer() {
+	return user.getIconServer();
     }
-    public String getId()
-    {
-        return user.getId();
+
+    public String getId() {
+	return user.getId();
     }
-    public String getLocation()
-    {
-        return user.getLocation();
+
+    public String getLocation() {
+	return user.getLocation();
     }
-    public OnlineStatus getOnline()
-    {
-        return user.getOnline();
+
+    public OnlineStatus getOnline() {
+	return user.getOnline();
     }
-    public int getPhotosCount()
-    {
-        return user.getPhotosCount();
+
+    public int getPhotosCount() {
+	return user.getPhotosCount();
     }
-    public Date getPhotosFirstDate()
-    {
-        return user.getPhotosFirstDate();
+
+    public Date getPhotosFirstDate() {
+	return user.getPhotosFirstDate();
     }
-    public Date getPhotosFirstDateTaken()
-    {
-        return user.getPhotosFirstDateTaken();
+
+    public Date getPhotosFirstDateTaken() {
+	return user.getPhotosFirstDateTaken();
     }
-    public String getRealName()
-    {
-        return user.getRealName();
+
+    public String getRealName() {
+	return user.getRealName();
     }
-    public String getUsername()
-    {
-        return user.getUsername();
+
+    public String getUsername() {
+	return user.getUsername();
     }
-    public boolean isAdmin()
-    {
-        return user.isAdmin();
+
+    public boolean isAdmin() {
+	return user.isAdmin();
     }
-    public boolean isPro()
-    {
-        return user.isPro();
+
+    public boolean isPro() {
+	return user.isPro();
     }
 
 }

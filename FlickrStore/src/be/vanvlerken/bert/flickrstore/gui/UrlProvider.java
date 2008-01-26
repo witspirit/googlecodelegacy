@@ -6,8 +6,6 @@
 
 package be.vanvlerken.bert.flickrstore.gui;
 
-
-public interface UrlProvider
-{
+public interface UrlProvider {
     public String getUrl();
 }

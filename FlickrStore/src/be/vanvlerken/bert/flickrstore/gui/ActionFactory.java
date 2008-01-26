@@ -18,48 +18,39 @@ import be.vanvlerken.bert.flickrstore.gui.photosetselector.PhotosetDescription;
 import be.vanvlerken.bert.flickrstore.gui.photosetselector.VerifyPhotosetAction;
 import be.vanvlerken.bert.flickrstore.login.FlickrUser;
 
-
-public class ActionFactory
-{
+public class ActionFactory {
     private AsyncFlickrFactory flickrFactory;
     private CurrentUser currentUser;
     private ReloginAction reloginAction;
-    
-    public ActionFactory(AsyncFlickrFactory flickrFactory, FlickrUser user)
-    {
-        this.flickrFactory = flickrFactory;
-        currentUser = new CurrentUser(user);
-        reloginAction = new ReloginAction(flickrFactory.getLoginManager(), currentUser);
-    }
-    
-    public CurrentUser getCurrentUser()
-    {
-        return currentUser;
+
+    public ActionFactory(AsyncFlickrFactory flickrFactory, FlickrUser user) {
+	this.flickrFactory = flickrFactory;
+	currentUser = new CurrentUser(user);
+	reloginAction = new ReloginAction(flickrFactory.getLoginManager(), currentUser);
     }
 
-    public ReloginAction getReloginAction()
-    {
-        return reloginAction;
+    public CurrentUser getCurrentUser() {
+	return currentUser;
     }
-    
-    public VerifyPhotosetAction getVerifyPhotosetAction(StatusBar statusBar, UrlProvider urlProvider, PhotosetDescription photosetDescription)
-    {
-        return new VerifyPhotosetAction(flickrFactory.getBrowser(), statusBar, urlProvider, photosetDescription);
+
+    public ReloginAction getReloginAction() {
+	return reloginAction;
     }
-    
-    public DownloadPhotosetAction getDownloadPhotosetAction(StatusBar statusBar, JProgressBar progressBar, UrlProvider urlProvider)
-    {
-        return new DownloadPhotosetAction(flickrFactory.getBrowser(), statusBar, progressBar, flickrFactory.getStore(), urlProvider);
+
+    public VerifyPhotosetAction getVerifyPhotosetAction(StatusBar statusBar, UrlProvider urlProvider, PhotosetDescription photosetDescription) {
+	return new VerifyPhotosetAction(flickrFactory.getBrowser(), statusBar, urlProvider, photosetDescription);
     }
-    
-    public VerifyGroupPoolAction getVerifyGroupPoolAction(StatusBar statusBar, UrlProvider urlProvider, GroupPoolDescription groupPoolDescription)
-    {
-        return new VerifyGroupPoolAction(flickrFactory.getBrowser(), statusBar, urlProvider, groupPoolDescription);
+
+    public DownloadPhotosetAction getDownloadPhotosetAction(StatusBar statusBar, JProgressBar progressBar, UrlProvider urlProvider) {
+	return new DownloadPhotosetAction(flickrFactory.getBrowser(), statusBar, progressBar, flickrFactory.getStore(), urlProvider);
     }
-    
-    public DownloadGroupPoolAction getDownloadGroupPoolAction(StatusBar statusBar, JProgressBar progressBar, UrlProvider urlProvider)
-    {
-        return new DownloadGroupPoolAction(flickrFactory.getBrowser(), statusBar, progressBar, flickrFactory.getStore(), urlProvider);
+
+    public VerifyGroupPoolAction getVerifyGroupPoolAction(StatusBar statusBar, UrlProvider urlProvider, GroupPoolDescription groupPoolDescription) {
+	return new VerifyGroupPoolAction(flickrFactory.getBrowser(), statusBar, urlProvider, groupPoolDescription);
+    }
+
+    public DownloadGroupPoolAction getDownloadGroupPoolAction(StatusBar statusBar, JProgressBar progressBar, UrlProvider urlProvider) {
+	return new DownloadGroupPoolAction(flickrFactory.getBrowser(), statusBar, progressBar, flickrFactory.getStore(), urlProvider);
     }
 
 }

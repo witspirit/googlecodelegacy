@@ -30,197 +30,167 @@ import be.vanvlerken.bert.flickrstore.store.StoreProgress;
 import com.aetrion.flickr.groups.Group;
 import com.aetrion.flickr.photos.Photo;
 
-public class DownloadGroupPoolAction extends AbstractAction
-{
+public class DownloadGroupPoolAction extends AbstractAction {    
+    private static final long serialVersionUID = 1L;
+    
     private static final int ERROR_DISPLAY_TIME = 3000;
     private static final int POLLING_INTERVAL = 500;
-    private Timer            timer;
+    private Timer timer;
 
-    private AsyncBrowser     browser;
-    private AsyncStore       store;
-    private UrlProvider      urlProvider;
+    private AsyncBrowser browser;
+    private AsyncStore store;
+    private UrlProvider urlProvider;
     private StatusBar statusBar;
     private int messageLevel;
     private JProgressBar progressBar;
 
-    public DownloadGroupPoolAction(AsyncBrowser browser, StatusBar statusBar, JProgressBar progressBar, AsyncStore store, UrlProvider urlProvider)
-    {
-        super("Download");
-        this.browser = browser;
-        this.statusBar = statusBar;
-        this.progressBar = progressBar;
-        this.store = store;
-        this.urlProvider = urlProvider;
+    public DownloadGroupPoolAction(AsyncBrowser browser, StatusBar statusBar, JProgressBar progressBar, AsyncStore store, UrlProvider urlProvider) {
+	super("Download");
+	this.browser = browser;
+	this.statusBar = statusBar;
+	this.progressBar = progressBar;
+	this.store = store;
+	this.urlProvider = urlProvider;
 
-        timer = new Timer("FlickrResponse-Polling", true);
+	timer = new Timer("FlickrResponse-Polling", true);
     }
 
-    private abstract class FlickrTimerTask<T> extends TimerTask
-    {
-        private Future<T> future;
-        
-        public FlickrTimerTask(Future<T> future)
-        {
-            this.future = future;
-        }
-        
-        @Override
-        public void run()
-        {
-            if (future.isDone())
-            {
-                // Don't reschedule and start storage
-                try
-                {
-                    T result = future.get();
-                    doWork(result);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                    setEnabled(true);
-                    statusBar.setMessage(messageLevel, e.getMessage(), ERROR_DISPLAY_TIME);
-                    progressBar.setValue(0);
-                }
-                catch (ExecutionException e)
-                {
-                    Throwable cause = e.getCause();
-                    if (cause instanceof FlickrCommunicationException)
-                    {
-                        setEnabled(true);
-                        statusBar.setMessage(messageLevel, cause.getMessage(), ERROR_DISPLAY_TIME);
-                        progressBar.setValue(0);
-                        JOptionPane.showMessageDialog(null, cause.getMessage()+"\n"+cause.getCause().getMessage(), "Communication problem",
-                                JOptionPane.ERROR_MESSAGE);
-                    }
-                    else
-                    {
-                        e.printStackTrace();
-                        setEnabled(true);
-                        statusBar.setMessage(messageLevel, cause.getMessage(), ERROR_DISPLAY_TIME);
-                        progressBar.setValue(0);
-                    }
-                }
-            }
-            else
-            {
-                // Make sure we get called again
-                timer.schedule(getScheduledTask(future), POLLING_INTERVAL);
-                // System.out.println("Ivoke again...");
-            }
-        }
-        
-        protected void schedule(FlickrTimerTask<?> flickrTask)
-        {
-            timer.schedule(flickrTask, POLLING_INTERVAL);
-        }
-        
-        protected abstract FlickrTimerTask<T> getScheduledTask(Future<T> future);
-        
-        protected abstract void doWork(T result);
-                
-    }
-    
-    private class VerifyGroupPool extends FlickrTimerTask<Group>
-    {
+    private abstract class FlickrTimerTask<T> extends TimerTask {
+	private Future<T> future;
 
-        public VerifyGroupPool(Future<Group> future)
-        {
-            super(future);
-        }
+	public FlickrTimerTask(Future<T> future) {
+	    this.future = future;
+	}
 
-        @Override
-        protected FlickrTimerTask<Group> getScheduledTask(Future<Group> groupFuture)
-        {
-            return new VerifyGroupPool(groupFuture);
-        }
+	@Override
+	public void run() {
+	    if (future.isDone()) {
+		// Don't reschedule and start storage
+		try {
+		    T result = future.get();
+		    doWork(result);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
+		    setEnabled(true);
+		    statusBar.setMessage(messageLevel, e.getMessage(), ERROR_DISPLAY_TIME);
+		    progressBar.setValue(0);
+		} catch (ExecutionException e) {
+		    Throwable cause = e.getCause();
+		    if (cause instanceof FlickrCommunicationException) {
+			setEnabled(true);
+			statusBar.setMessage(messageLevel, cause.getMessage(), ERROR_DISPLAY_TIME);
+			progressBar.setValue(0);
+			JOptionPane.showMessageDialog(null, cause.getMessage() + "\n" + cause.getCause().getMessage(), "Communication problem",
+				JOptionPane.ERROR_MESSAGE);
+		    } else {
+			e.printStackTrace();
+			setEnabled(true);
+			statusBar.setMessage(messageLevel, cause.getMessage(), ERROR_DISPLAY_TIME);
+			progressBar.setValue(0);
+		    }
+		}
+	    } else {
+		// Make sure we get called again
+		timer.schedule(getScheduledTask(future), POLLING_INTERVAL);
+		// System.out.println("Ivoke again...");
+	    }
+	}
 
-        @Override
-        protected void doWork(Group group)
-        {
-            Future<List<Photo>> photosFuture = browser.getGroupPhotos(group.getId());
-            String targetFolder = getTargetFolder();
-            schedule(new WaitForPhotos(targetFolder, photosFuture));
-        }
-    }
-    
-    private class WaitForPhotos extends FlickrTimerTask<List<Photo>>
-    {
-        private String              targetFolder;
+	protected void schedule(FlickrTimerTask<?> flickrTask) {
+	    timer.schedule(flickrTask, POLLING_INTERVAL);
+	}
 
-        public WaitForPhotos(String targetFolder,Future<List<Photo>> photosFuture)
-        {
-            super(photosFuture);
-            this.targetFolder = targetFolder;
-        }
+	protected abstract FlickrTimerTask<T> getScheduledTask(Future<T> future);
 
-        @Override
-        protected FlickrTimerTask<List<Photo>> getScheduledTask(Future<List<Photo>> photosFuture)
-        {
-            return new WaitForPhotos(targetFolder, photosFuture);
-        }
+	protected abstract void doWork(T result);
 
-        @Override
-        protected void doWork(List<Photo> photos)
-        {
-            OverwriteStrategy overwriteStrategy;
-            // overwriteStrategy = new AskUserOverwriteStrategy();
-            overwriteStrategy = new OverwriteNever();
-            Future<Object> saveFuture = store.savePhotos(photos, targetFolder, new ProgressTracker(), overwriteStrategy);
-            schedule(new WaitForSaveComplete(saveFuture));
-        }
-    }
-    
-    private class WaitForSaveComplete extends FlickrTimerTask<Object>
-    {
-        public WaitForSaveComplete(Future<Object> saveFuture)
-        {
-            super(saveFuture);
-        }
-
-        @Override
-        protected FlickrTimerTask<Object> getScheduledTask(Future<Object> saveFuture)
-        {
-            return new WaitForSaveComplete(saveFuture);
-        }
-
-        @Override
-        protected void doWork(Object result)
-        {
-            setEnabled(true);
-            statusBar.setMessage(messageLevel, "Download complete", 2000);
-            progressBar.setValue(0);
-        }
-    }    
-
-    public void actionPerformed(ActionEvent ae)
-    {
-        setEnabled(false);
-        Future<Group> groupFuture = browser.getGroup(urlProvider.getUrl());
-        messageLevel = statusBar.addMessage("Downloading...");
-        timer.schedule(new VerifyGroupPool(groupFuture), POLLING_INTERVAL);
     }
 
-    private String getTargetFolder()
-    {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int response = fileChooser.showDialog(null, "Select Download Folder");
-        if (response == JFileChooser.APPROVE_OPTION) { return fileChooser.getSelectedFile().toString(); }
-        return null;
-    }
-    
-    private class ProgressTracker implements StoreProgress
-    {        
-        public void setMaximum(int max)
-        {
-            progressBar.setMinimum(0);
-            progressBar.setMaximum(max);
-        }
+    private class VerifyGroupPool extends FlickrTimerTask<Group> {
 
-        public void setCurrent(int current)
-        {
-            progressBar.setValue(current);
-        }        
+	public VerifyGroupPool(Future<Group> future) {
+	    super(future);
+	}
+
+	@Override
+	protected FlickrTimerTask<Group> getScheduledTask(Future<Group> groupFuture) {
+	    return new VerifyGroupPool(groupFuture);
+	}
+
+	@Override
+	protected void doWork(Group group) {
+	    Future<List<Photo>> photosFuture = browser.getGroupPhotos(group.getId());
+	    String targetFolder = getTargetFolder();
+	    schedule(new WaitForPhotos(targetFolder, photosFuture));
+	}
+    }
+
+    private class WaitForPhotos extends FlickrTimerTask<List<Photo>> {
+	private String targetFolder;
+
+	public WaitForPhotos(String targetFolder, Future<List<Photo>> photosFuture) {
+	    super(photosFuture);
+	    this.targetFolder = targetFolder;
+	}
+
+	@Override
+	protected FlickrTimerTask<List<Photo>> getScheduledTask(Future<List<Photo>> photosFuture) {
+	    return new WaitForPhotos(targetFolder, photosFuture);
+	}
+
+	@Override
+	protected void doWork(List<Photo> photos) {
+	    OverwriteStrategy overwriteStrategy;
+	    // overwriteStrategy = new AskUserOverwriteStrategy();
+	    overwriteStrategy = new OverwriteNever();
+	    Future<Object> saveFuture = store.savePhotos(photos, targetFolder, new ProgressTracker(), overwriteStrategy);
+	    schedule(new WaitForSaveComplete(saveFuture));
+	}
+    }
+
+    private class WaitForSaveComplete extends FlickrTimerTask<Object> {
+	public WaitForSaveComplete(Future<Object> saveFuture) {
+	    super(saveFuture);
+	}
+
+	@Override
+	protected FlickrTimerTask<Object> getScheduledTask(Future<Object> saveFuture) {
+	    return new WaitForSaveComplete(saveFuture);
+	}
+
+	@Override
+	protected void doWork(Object result) {
+	    setEnabled(true);
+	    statusBar.setMessage(messageLevel, "Download complete", 2000);
+	    progressBar.setValue(0);
+	}
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+	setEnabled(false);
+	Future<Group> groupFuture = browser.getGroup(urlProvider.getUrl());
+	messageLevel = statusBar.addMessage("Downloading...");
+	timer.schedule(new VerifyGroupPool(groupFuture), POLLING_INTERVAL);
+    }
+
+    private String getTargetFolder() {
+	JFileChooser fileChooser = new JFileChooser();
+	fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+	int response = fileChooser.showDialog(null, "Select Download Folder");
+	if (response == JFileChooser.APPROVE_OPTION) {
+	    return fileChooser.getSelectedFile().toString();
+	}
+	return null;
+    }
+
+    private class ProgressTracker implements StoreProgress {
+	public void setMaximum(int max) {
+	    progressBar.setMinimum(0);
+	    progressBar.setMaximum(max);
+	}
+
+	public void setCurrent(int current) {
+	    progressBar.setValue(current);
+	}
     }
 }

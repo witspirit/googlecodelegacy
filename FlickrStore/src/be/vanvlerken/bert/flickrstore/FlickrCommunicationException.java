@@ -7,30 +7,25 @@
 package be.vanvlerken.bert.flickrstore;
 
 /**
- * This exception is thrown whenever there was an underlying exception.
- * These could be either IOException, SAXException or FlickrException
+ * This exception is thrown whenever there was an underlying exception. These could be either IOException, SAXException or FlickrException
  */
-public class FlickrCommunicationException extends Exception
-{
+public class FlickrCommunicationException extends Exception {
+    private static final long serialVersionUID = 1L;
 
-    public FlickrCommunicationException()
-    {
-        super();
+    public FlickrCommunicationException() {
+	super();
     }
 
-    public FlickrCommunicationException(String msg)
-    {
-        super(msg);
+    public FlickrCommunicationException(String msg) {
+	super(msg);
     }
 
-    public FlickrCommunicationException(String msg, Throwable t)
-    {
-        super(msg, t);
+    public FlickrCommunicationException(String msg, Throwable t) {
+	super(msg, t);
     }
 
-    public FlickrCommunicationException(Throwable t)
-    {
-        super(t);
+    public FlickrCommunicationException(Throwable t) {
+	super(t);
     }
 
 }
