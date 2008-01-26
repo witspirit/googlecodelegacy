@@ -26,6 +26,7 @@ import com.aetrion.flickr.groups.Group;
 import com.aetrion.flickr.groups.GroupsInterface;
 import com.aetrion.flickr.groups.pools.PoolsInterface;
 import com.aetrion.flickr.photos.Photo;
+import com.aetrion.flickr.photos.PhotoList;
 import com.aetrion.flickr.photos.PhotosInterface;
 import com.aetrion.flickr.photosets.Photoset;
 import com.aetrion.flickr.photosets.Photosets;
@@ -85,8 +86,8 @@ public class SyncBrowser
     {
         try
         {
-            PhotosetsInterface sets = flickr.getPhotosetsInterface();
-            Collection photoCollection = sets.getPhotos(setId);
+            PhotosetsInterface sets = flickr.getPhotosetsInterface();            
+            PhotoList photoCollection = sets.getPhotos(setId, 500, 1);
 
             return fetchPhotoInfo(photoCollection);
         }

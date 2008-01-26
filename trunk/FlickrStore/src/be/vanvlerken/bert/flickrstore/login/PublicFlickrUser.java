@@ -19,17 +19,17 @@ public class PublicFlickrUser implements FlickrUser
         return null;
     }
 
-    public int getBandwidthMax()
+    public long getBandwidthMax()
     {
         return 0;
     }
 
-    public int getBandwidthUsed()
+    public long getBandwidthUsed()
     {
         return 0;
     }
 
-    public int getFilesizeMax()
+    public long getFilesizeMax()
     {
         return 0;
     }
