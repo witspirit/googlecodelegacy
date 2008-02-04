@@ -25,6 +25,11 @@ public class ClipboardObserver implements Runnable {
     public synchronized void start() {
 	observing = true;
 	lastData = null;
+	try {
+	    lastData = clipboard.getData(observedFlavor);
+	} catch (Exception e) {
+	    // We ignore this altogether and assume an empty clipboard on the start
+	} 
 	Thread observerThread = new Thread(this, "ClipboardObserver");
 	observerThread.start();
     }
