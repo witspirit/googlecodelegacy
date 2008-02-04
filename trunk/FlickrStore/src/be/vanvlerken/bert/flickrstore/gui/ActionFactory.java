@@ -22,11 +22,13 @@ public class ActionFactory {
     private AsyncFlickrFactory flickrFactory;
     private CurrentUser currentUser;
     private ReloginAction reloginAction;
+    private ExitAction exitAction;
 
     public ActionFactory(AsyncFlickrFactory flickrFactory, FlickrUser user) {
 	this.flickrFactory = flickrFactory;
 	currentUser = new CurrentUser(user);
 	reloginAction = new ReloginAction(flickrFactory.getLoginManager(), currentUser);
+	exitAction = new ExitAction();
     }
 
     public CurrentUser getCurrentUser() {
@@ -36,6 +38,11 @@ public class ActionFactory {
     public ReloginAction getReloginAction() {
 	return reloginAction;
     }
+    
+    public ExitAction getExitAction() {
+	return exitAction;
+    }
+
 
     public VerifyPhotosetAction getVerifyPhotosetAction(StatusBar statusBar, UrlProvider urlProvider, PhotosetDescription photosetDescription) {
 	return new VerifyPhotosetAction(flickrFactory.getBrowser(), statusBar, urlProvider, photosetDescription);
@@ -52,5 +59,6 @@ public class ActionFactory {
     public DownloadGroupPoolAction getDownloadGroupPoolAction(StatusBar statusBar, JProgressBar progressBar, UrlProvider urlProvider) {
 	return new DownloadGroupPoolAction(flickrFactory.getBrowser(), statusBar, progressBar, flickrFactory.getStore(), urlProvider);
     }
+    
 
 }

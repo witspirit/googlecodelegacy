@@ -6,7 +6,9 @@
 
 package be.vanvlerken.bert.flickrstore;
 
-import be.vanvlerken.bert.flickrstore.gui.GUI;
+import java.awt.AWTException;
+
+import be.vanvlerken.bert.flickrstore.systemtray.SystemTrayGUI;
 
 /**
  * This is the main entry point of the program.
@@ -25,8 +27,15 @@ public class FlickrStore implements Runnable {
 	// FlickrFactory flickrFactory = FlickrFactory.getInstance();
 	// TextUI textUi = new TextUI(flickrFactory);
 	// textUi.run();
-	GUI graphUi = new GUI();
-	graphUi.run();
+//	GUI graphUi = new GUI();
+//	graphUi.run();
+	
+	try {
+	    SystemTrayGUI sysGui = new SystemTrayGUI();
+	    sysGui.start();
+	} catch (AWTException e) {	    
+	    e.printStackTrace();
+	}
     }
 
 }
