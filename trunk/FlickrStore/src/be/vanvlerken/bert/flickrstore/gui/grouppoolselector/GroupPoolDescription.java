@@ -6,11 +6,9 @@
 
 package be.vanvlerken.bert.flickrstore.gui.grouppoolselector;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.Observable;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 public class GroupPoolDescription extends Observable {
     public static final int UNKNOWN = -1;
@@ -21,39 +19,39 @@ public class GroupPoolDescription extends Observable {
     private Icon icon;
 
     public GroupPoolDescription() {
-	URL imageUrl = this.getClass().getClassLoader().getResource("resources/FlickrIcon.png");
-	icon = new ImageIcon(imageUrl);
+        URL imageUrl = this.getClass().getClassLoader().getResource("resources/FlickrIcon.png");
+        icon = new ImageIcon(imageUrl);
 
-	name = "No GroupPool selected yet";
-	description = "";
-	photoCount = UNKNOWN;
+        name = "No GroupPool selected yet";
+        description = "";
+        photoCount = UNKNOWN;
     }
 
     public void updateDescription(Icon icon, String name, String description, int photoCount) {
-	if (icon != null) {
-	    this.icon = icon;
-	}
-	this.name = name;
-	this.description = description;
-	this.photoCount = photoCount;
+        if (icon != null) {
+            this.icon = icon;
+        }
+        this.name = name;
+        this.description = description;
+        this.photoCount = photoCount;
 
-	this.setChanged();
-	this.notifyObservers();
+        this.setChanged();
+        this.notifyObservers();
     }
 
     public Icon getIcon() {
-	return icon;
+        return icon;
     }
 
     public int getPhotoCount() {
-	return photoCount;
+        return photoCount;
     }
 
     public String getName() {
-	return name;
+        return name;
     }
 
     public String getDescription() {
-	return description;
+        return description;
     }
 }
