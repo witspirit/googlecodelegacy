@@ -6,8 +6,6 @@
 
 package be.vanvlerken.bert.flickrstore.gui;
 
-import javax.swing.JProgressBar;
-
 import be.vanvlerken.bert.components.gui.applicationwindow.StatusBar;
 import be.vanvlerken.bert.flickrstore.AsyncFlickrFactory;
 import be.vanvlerken.bert.flickrstore.gui.grouppoolselector.DownloadGroupPoolAction;
@@ -16,7 +14,12 @@ import be.vanvlerken.bert.flickrstore.gui.grouppoolselector.VerifyGroupPoolActio
 import be.vanvlerken.bert.flickrstore.gui.photosetselector.DownloadPhotosetAction;
 import be.vanvlerken.bert.flickrstore.gui.photosetselector.PhotosetDescription;
 import be.vanvlerken.bert.flickrstore.gui.photosetselector.VerifyPhotosetAction;
+import be.vanvlerken.bert.flickrstore.gui.common.CurrentUser;
+import be.vanvlerken.bert.flickrstore.gui.common.ReloginAction;
+import be.vanvlerken.bert.flickrstore.gui.common.ExitAction;
 import be.vanvlerken.bert.flickrstore.login.FlickrUser;
+
+import javax.swing.*;
 
 public class ActionFactory {
     private AsyncFlickrFactory flickrFactory;
@@ -25,40 +28,40 @@ public class ActionFactory {
     private ExitAction exitAction;
 
     public ActionFactory(AsyncFlickrFactory flickrFactory, FlickrUser user) {
-	this.flickrFactory = flickrFactory;
-	currentUser = new CurrentUser(user);
-	reloginAction = new ReloginAction(flickrFactory.getLoginManager(), currentUser);
-	exitAction = new ExitAction();
+        this.flickrFactory = flickrFactory;
+        currentUser = new CurrentUser(user);
+        reloginAction = new ReloginAction(flickrFactory.getLoginManager(), currentUser);
+        exitAction = new ExitAction();
     }
 
     public CurrentUser getCurrentUser() {
-	return currentUser;
+        return currentUser;
     }
 
     public ReloginAction getReloginAction() {
-	return reloginAction;
+        return reloginAction;
     }
-    
+
     public ExitAction getExitAction() {
-	return exitAction;
+        return exitAction;
     }
 
 
     public VerifyPhotosetAction getVerifyPhotosetAction(StatusBar statusBar, UrlProvider urlProvider, PhotosetDescription photosetDescription) {
-	return new VerifyPhotosetAction(flickrFactory.getBrowser(), statusBar, urlProvider, photosetDescription);
+        return new VerifyPhotosetAction(flickrFactory.getBrowser(), statusBar, urlProvider, photosetDescription);
     }
 
     public DownloadPhotosetAction getDownloadPhotosetAction(StatusBar statusBar, JProgressBar progressBar, UrlProvider urlProvider) {
-	return new DownloadPhotosetAction(flickrFactory.getBrowser(), statusBar, progressBar, flickrFactory.getStore(), urlProvider);
+        return new DownloadPhotosetAction(flickrFactory.getBrowser(), statusBar, progressBar, flickrFactory.getStore(), urlProvider);
     }
 
     public VerifyGroupPoolAction getVerifyGroupPoolAction(StatusBar statusBar, UrlProvider urlProvider, GroupPoolDescription groupPoolDescription) {
-	return new VerifyGroupPoolAction(flickrFactory.getBrowser(), statusBar, urlProvider, groupPoolDescription);
+        return new VerifyGroupPoolAction(flickrFactory.getBrowser(), statusBar, urlProvider, groupPoolDescription);
     }
 
     public DownloadGroupPoolAction getDownloadGroupPoolAction(StatusBar statusBar, JProgressBar progressBar, UrlProvider urlProvider) {
-	return new DownloadGroupPoolAction(flickrFactory.getBrowser(), statusBar, progressBar, flickrFactory.getStore(), urlProvider);
+        return new DownloadGroupPoolAction(flickrFactory.getBrowser(), statusBar, progressBar, flickrFactory.getStore(), urlProvider);
     }
-    
+
 
 }
