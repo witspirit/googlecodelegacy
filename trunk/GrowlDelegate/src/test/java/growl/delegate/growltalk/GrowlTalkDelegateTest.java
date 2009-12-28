@@ -8,12 +8,12 @@ public class GrowlTalkDelegateTest {
 	@Test
 	public void sendSimpleNotification() {
 		GrowlTalkDelegate growl = new GrowlTalkDelegate("Growl Delegate Library");
-		Notification basicNotification = growl.addNotificationType(TestNotificationType.BASIC);
-		Notification otherNotification = growl.addNotificationType(TestNotificationType.OTHER);
+		Notification basicNotification = growl.addNotificationType(ExampleNotificationType.BASIC);
+		Notification otherNotification = growl.addNotificationType(ExampleNotificationType.OTHER);
 		growl.register();
 		
-		growl.notify(TestNotificationType.BASIC, "Test Message", "Basic Notification Test Message via delegate");
-		growl.notify(TestNotificationType.OTHER, "Other Test Message", "Other Notification Test Message via delegate", GrowlTalkPriority.HIGH, true);
+		growl.notify(ExampleNotificationType.BASIC, "Test Message", "Basic Notification Test Message via delegate");
+		growl.notify(ExampleNotificationType.OTHER, "Other Test Message", "Other Notification Test Message via delegate", GrowlTalkPriority.HIGH, true);
 		
 		basicNotification.send("Test Message", "Basic notification test message via notification");
 		otherNotification.send("Other Test Message", "Other notification test message via notification", GrowlTalkPriority.HIGH, true);
