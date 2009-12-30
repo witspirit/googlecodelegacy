@@ -10,21 +10,32 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class GrowlTalkDelegate {
+    public static final String LOCALHOST = "127.0.0.1";
+    public static final int DEFAULT_GROWLTALK_PORT = 9887;
     private static final int MIN_PORT = 0;
     private static final int MAX_PORT = 0xFFFF;
-    private static final int DEFAULT_GROWLTALK_PORT = 9887;
 
     private InetAddress destinationHost;
     private int destinationPort = DEFAULT_GROWLTALK_PORT;
     private final String applicationName;
+    private final GrowlAuthentication auth;
     private final Set<NotificationType> supportedNotificationTypes = new LinkedHashSet<NotificationType>();
 
     public GrowlTalkDelegate(String applicationName) {
-        this(applicationName, "127.0.0.1", DEFAULT_GROWLTALK_PORT);
+        this(applicationName, null, LOCALHOST, DEFAULT_GROWLTALK_PORT);
     }
     
-    public GrowlTalkDelegate(String applicationName, String destinationHost, int destinationPort) {
+    public GrowlTalkDelegate(String applicationName, String password) {
+        this(applicationName, password, LOCALHOST, DEFAULT_GROWLTALK_PORT);
+    }
+    
+    public GrowlTalkDelegate(String applicationName, String password, String destinationHost, int destinationPort) {
         this.applicationName = applicationName;
+        if (password == null) {
+            this.auth = new NoGrowlAuthentication();
+        } else {
+            this.auth = new MD5GrowlAuthentication(password);
+        }
         setDestinationHost(destinationHost);
         setDestinationPort(destinationPort);
     }
@@ -71,8 +82,7 @@ public class GrowlTalkDelegate {
     
 
     public void register() {
-        RegistrationPacket registrationPacket = new RegistrationPacket(GrowlTalkVersion.PLAIN,
-                GrowlTalkPacketType.REGISTRATION_NOAUTH, applicationName);
+        RegistrationPacket registrationPacket = new RegistrationPacket(auth, applicationName);
         for (NotificationType notificationType : supportedNotificationTypes) {
             registrationPacket.addNotificationType(notificationType.getName(), notificationType.isEnabledByDefault());
         }
@@ -89,8 +99,7 @@ public class GrowlTalkDelegate {
             throw new RuntimeException("Unsupported NotificationType " + notificationType + ". Only "
                     + supportedNotificationTypes + " are supported");
         }
-        NotificationPacket notificationPacket = new NotificationPacket(GrowlTalkVersion.PLAIN,
-                GrowlTalkPacketType.NOTIFICATION_NOAUTH, applicationName, priority, sticky, notificationType.getName(),
+        NotificationPacket notificationPacket = new NotificationPacket(auth, applicationName, priority, sticky, notificationType.getName(),
                 title, description);
         deliver(notificationPacket);
     }

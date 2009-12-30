@@ -9,14 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 public class RegistrationPacket implements GrowlPacket {
-	private GrowlTalkVersion version;
-	private GrowlTalkPacketType type;
+    private GrowlAuthentication auth;
 	private String applicationName;
 	private Map<String, Boolean> notifications = new LinkedHashMap<String, Boolean>();
 	
-	public RegistrationPacket(GrowlTalkVersion version, GrowlTalkPacketType type, String applicationName) {
-		this.version = version;
-		this.type = type;
+	public RegistrationPacket(GrowlAuthentication auth, String applicationName) {
+	    this.auth = auth;
 		this.applicationName = applicationName;
 	}
 	
@@ -25,11 +23,11 @@ public class RegistrationPacket implements GrowlPacket {
 	}
 	
 	public GrowlTalkVersion getVersion() {
-		return version;
+		return auth.getProtocolVersion();
 	}
 	
 	public GrowlTalkPacketType getType() {
-		return type;
+		return auth.getRegistrationType();
 	}
 	
 	public String getApplicationName() {
@@ -43,10 +41,10 @@ public class RegistrationPacket implements GrowlPacket {
 	public byte[] asMessageBytes() throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream daos = new DataOutputStream(baos);
-		daos.writeByte(version.getVersionId());
-		daos.writeByte(type.getTypeId());
+		daos.writeByte(auth.getProtocolVersion().getVersionId());
+		daos.writeByte(auth.getRegistrationType().getTypeId());
 
-		byte[] applicationNameBytes = applicationName.getBytes("UTF-8");
+		byte[] applicationNameBytes = Util.toUTF8(applicationName);
 		daos.writeShort(applicationNameBytes.length);
 		
 		daos.writeByte(notifications.size());
@@ -70,25 +68,12 @@ public class RegistrationPacket implements GrowlPacket {
 		for (int defIndex : defaultIndexes) {
 			daos.writeByte(defIndex);
 		}
-		
-		switch (type) {
-		case NOTIFICATION:
-		case REGISTRATION:
-			// MD5 Checksum
-			throw new UnsupportedOperationException("Don't support MD5 checksum");
-		case NOTIFICATION_SHA256:
-		case REGISTRATION_SHA256:
-			// SHA256 Checksum
-			throw new UnsupportedOperationException("Don't support SHA256 checksum");
-		case NOTIFICATION_NOAUTH:
-		case REGISTRATION_NOAUTH:
-			// No Checksum
-			break;
-		default:
-			throw new UnsupportedOperationException("Unknown Checksum strategy for "+type);
-		}
 		daos.flush();
+		byte[] message = baos.toByteArray();
 		
+		daos.write(auth.generateChecksum(message));
+		
+		daos.flush();
 		return baos.toByteArray();
 	}
 }

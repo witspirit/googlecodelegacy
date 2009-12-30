@@ -5,8 +5,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class NotificationPacket implements GrowlPacket {
-	private GrowlTalkVersion version;
-	private GrowlTalkPacketType type;
+    private GrowlAuthentication auth;
 	private String applicationName;
 	private GrowlTalkPriority priority;
 	private boolean sticky;
@@ -14,12 +13,10 @@ public class NotificationPacket implements GrowlPacket {
 	private String title;
 	private String description;
 
-	public NotificationPacket(GrowlTalkVersion version,
-			GrowlTalkPacketType type, String applicationName,
+	public NotificationPacket(GrowlAuthentication auth, String applicationName,
 			GrowlTalkPriority priority, boolean sticky,
 			String notificationType, String title, String description) {
-		this.version = version;
-		this.type = type;
+	    this.auth = auth;
 		this.applicationName = applicationName;
 		this.priority = priority;
 		this.sticky = sticky;
@@ -29,11 +26,11 @@ public class NotificationPacket implements GrowlPacket {
 	}
 
 	public GrowlTalkVersion getVersion() {
-		return version;
+		return auth.getProtocolVersion();
 	}
 
 	public GrowlTalkPacketType getType() {
-		return type;
+		return auth.getNotificationType();
 	}
 
 	public String getApplicationName() {
@@ -61,15 +58,15 @@ public class NotificationPacket implements GrowlPacket {
 	}
 
 	public byte[] asMessageBytes() throws IOException {
-		byte[] applicationNameBytes = applicationName.getBytes("UTF-8");
-		byte[] notificationTypeBytes = notificationType.getBytes("UTF-8");
-		byte[] titleBytes = title.getBytes("UTF-8");
-		byte[] descriptionBytes = description.getBytes("UTF-8");
+		byte[] applicationNameBytes = Util.toUTF8(applicationName);
+		byte[] notificationTypeBytes = Util.toUTF8(notificationType);
+		byte[] titleBytes = Util.toUTF8(title);
+		byte[] descriptionBytes = Util.toUTF8(description);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		DataOutputStream daos = new DataOutputStream(baos);
-		daos.writeByte(version.getVersionId());
-		daos.writeByte(type.getTypeId());
+		daos.writeByte(auth.getProtocolVersion().getVersionId());
+		daos.writeByte(auth.getNotificationType().getTypeId());
 		
 		daos.writeShort(deriveFlags());
 		
@@ -82,27 +79,13 @@ public class NotificationPacket implements GrowlPacket {
 		daos.write(titleBytes);
 		daos.write(descriptionBytes);
 		daos.write(applicationNameBytes);
-
-		switch (type) {
-		case NOTIFICATION:
-		case REGISTRATION:
-			// MD5 Checksum
-			throw new UnsupportedOperationException(
-					"Don't support MD5 checksum");
-		case NOTIFICATION_SHA256:
-		case REGISTRATION_SHA256:
-			// SHA256 Checksum
-			throw new UnsupportedOperationException(
-					"Don't support SHA256 checksum");
-		case NOTIFICATION_NOAUTH:
-		case REGISTRATION_NOAUTH:
-			// No Checksum
-			break;
-		default:
-			throw new UnsupportedOperationException("Unknown Checksum strategy for " + type);
-		}
+		
 		daos.flush();
+		byte[] message = baos.toByteArray();
 
+		daos.write(auth.generateChecksum(message));
+		
+		daos.flush();
 		return baos.toByteArray();
 	}
 	
