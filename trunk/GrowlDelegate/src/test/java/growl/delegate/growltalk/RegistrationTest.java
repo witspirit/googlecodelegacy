@@ -18,7 +18,8 @@ public class RegistrationTest {
 	public void sendSimpleRegistration() throws IOException {
 		DatagramSocket socket = new DatagramSocket();
 		
-		RegistrationPacket registrationPacket = new RegistrationPacket(GrowlTalkVersion.PLAIN, GrowlTalkPacketType.REGISTRATION_NOAUTH, "Growl Delegate Library");
+		GrowlAuthentication auth = new NoGrowlAuthentication();
+		RegistrationPacket registrationPacket = new RegistrationPacket(auth, "Growl Delegate Library");
 		registrationPacket.addNotificationType("Basic Notification", true);
 		byte[] buf = registrationPacket.asMessageBytes();
 		

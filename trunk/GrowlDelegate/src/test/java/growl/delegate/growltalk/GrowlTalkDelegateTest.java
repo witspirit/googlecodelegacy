@@ -40,4 +40,13 @@ public class GrowlTalkDelegateTest {
 	    
 	    sticky.send("Sticky", "Sticky Message", GrowlTalkPriority.NORMAL, true);
 	}
+	
+	@Test
+	public void withPassword() {
+	    GrowlTalkDelegate growl = new GrowlTalkDelegate("Growl Delegate Library", "witspiritrules");
+	    Notification n = growl.addNotificationType("Message", true);
+	    growl.register();
+	    
+	    n.send("Password Message", "Password protected message");
+	}
 }

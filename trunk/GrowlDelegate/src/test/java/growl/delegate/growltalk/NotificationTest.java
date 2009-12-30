@@ -20,7 +20,8 @@ public class NotificationTest {
 		
 		// First register - to ensure we can send the notification
 		String applicationName = "Growl Delegate Library";
-		RegistrationPacket registrationPacket = new RegistrationPacket(GrowlTalkVersion.PLAIN, GrowlTalkPacketType.REGISTRATION_NOAUTH, applicationName);
+		GrowlAuthentication auth = new NoGrowlAuthentication();
+		RegistrationPacket registrationPacket = new RegistrationPacket(auth, applicationName);
 		String notificationType = "Basic Notification";
 		registrationPacket.addNotificationType(notificationType, true);
 		byte[] buf = registrationPacket.asMessageBytes();
@@ -28,7 +29,7 @@ public class NotificationTest {
 		DatagramPacket packet = new DatagramPacket(buf, 0, buf.length, InetAddress.getByName("127.0.0.1"), 9887);
 		socket.send(packet);
 		
-		NotificationPacket notificationPacket = new NotificationPacket(GrowlTalkVersion.PLAIN, GrowlTalkPacketType.NOTIFICATION_NOAUTH, applicationName, GrowlTalkPriority.NORMAL, false, notificationType, "Test Message", "This is a test message. Ain't it cool.");
+		NotificationPacket notificationPacket = new NotificationPacket(auth, applicationName, GrowlTalkPriority.NORMAL, false, notificationType, "Test Message", "This is a test message. Ain't it cool.");
 		buf = notificationPacket.asMessageBytes();
 		System.out.println(Arrays.toString(buf));
 		
