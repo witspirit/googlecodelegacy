@@ -22,20 +22,16 @@ public class GrowlTalkDelegate {
     private final Set<NotificationType> supportedNotificationTypes = new LinkedHashSet<NotificationType>();
 
     public GrowlTalkDelegate(String applicationName) {
-        this(applicationName, null, LOCALHOST, DEFAULT_GROWLTALK_PORT);
+        this(applicationName, GrowlSecurity.NOAUTH.authentication(null), LOCALHOST, DEFAULT_GROWLTALK_PORT);
     }
     
-    public GrowlTalkDelegate(String applicationName, String password) {
-        this(applicationName, password, LOCALHOST, DEFAULT_GROWLTALK_PORT);
+    public GrowlTalkDelegate(String applicationName, GrowlAuthentication authentication) {
+        this(applicationName, authentication, LOCALHOST, DEFAULT_GROWLTALK_PORT);
     }
     
-    public GrowlTalkDelegate(String applicationName, String password, String destinationHost, int destinationPort) {
+    public GrowlTalkDelegate(String applicationName, GrowlAuthentication authentication, String destinationHost, int destinationPort) {
         this.applicationName = applicationName;
-        if (password == null) {
-            this.auth = new NoGrowlAuthentication();
-        } else {
-            this.auth = new MD5GrowlAuthentication(password);
-        }
+        this.auth = authentication;
         setDestinationHost(destinationHost);
         setDestinationPort(destinationPort);
     }
