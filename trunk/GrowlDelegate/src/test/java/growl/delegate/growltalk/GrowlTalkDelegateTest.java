@@ -42,11 +42,20 @@ public class GrowlTalkDelegateTest {
 	}
 	
 	@Test
-	public void withPassword() {
-	    GrowlTalkDelegate growl = new GrowlTalkDelegate("Growl Delegate Library", "witspiritrules");
-	    Notification n = growl.addNotificationType("Message", true);
+	public void withMD5Password() {
+	    GrowlTalkDelegate growl = new GrowlTalkDelegate("Growl Delegate Library", GrowlSecurity.MD5.authentication("witspiritrules"));
+	    Notification n = growl.addNotificationType("MD5 Message", true);
 	    growl.register();
 	    
-	    n.send("Password Message", "Password protected message");
+	    n.send("Password Message", "MD5 Password protected message");
 	}
+	
+	@Test
+    public void withSHA256Password() {
+        GrowlTalkDelegate growl = new GrowlTalkDelegate("Growl Delegate Library", GrowlSecurity.SHA256.authentication("witspiritrules"));
+        Notification n = growl.addNotificationType("SHA256 Message", true);
+        growl.register();
+        
+        n.send("Password Message", "SHA256 Password protected message");
+    }
 }
