@@ -56,7 +56,7 @@ public class BaseState<REQUEST> implements TransactionState {
     }
     
     protected void flagStatus(TransactionStatus status) {
-	configuration.getRequestHandler().transactionDone(request, transactionId, status);
+	configuration.getTransactionRecorder().transactionDone(request, transactionId, status);
     }
     
     @Override
