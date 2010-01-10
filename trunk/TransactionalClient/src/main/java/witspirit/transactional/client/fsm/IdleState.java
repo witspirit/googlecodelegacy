@@ -1,16 +1,20 @@
 package witspirit.transactional.client.fsm;
 
-public class IdleState implements TransactionState {
+import witspirit.transactional.client.Configuration;
+
+public class IdleState<REQUEST> extends BaseState<REQUEST> {
+    
+    public IdleState(Configuration<REQUEST> configuration, REQUEST request) {
+	super(configuration, request);
+    }
 
     @Override
     public TransactionState abort() {
-	// TODO Auto-generated method stub
 	return this;
     }
 
     @Override
     public TransactionState activate() {
-	// TODO Auto-generated method stub
 	return this;
     }
 

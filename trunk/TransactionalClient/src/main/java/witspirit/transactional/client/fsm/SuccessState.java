@@ -1,22 +1,23 @@
 package witspirit.transactional.client.fsm;
 
-import witspirit.transactional.client.Configuration;
+import witspirit.transactional.client.TransactionStatus;
 
-public class SuccessState<REQUEST> implements TransactionState {
 
-    public SuccessState(REQUEST request, Configuration<REQUEST> configuration, String transactionId) {
-	// TODO Auto-generated constructor stub
+public class SuccessState<REQUEST> extends BaseState<REQUEST> {
+
+    public SuccessState(BaseState<REQUEST> sourceState) {
+	super(sourceState);
     }
 
     @Override
     public TransactionState abort() {
-	// TODO Auto-generated method stub
-	return this;
+	// Requesting applicative reversal of a succesful transaction
+	return new SendingReversalState<REQUEST>(this, 0);
     }
 
     @Override
     public TransactionState activate() {
-	// TODO Auto-generated method stub
+	flagStatus(TransactionStatus.SUCCESS);
 	return this;
     }
 

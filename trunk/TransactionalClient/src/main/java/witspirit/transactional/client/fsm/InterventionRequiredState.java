@@ -3,9 +3,9 @@ package witspirit.transactional.client.fsm;
 import witspirit.transactional.client.TransactionStatus;
 
 
-public class AbortedState<REQUEST> extends BaseState<REQUEST> {
+public class InterventionRequiredState<REQUEST> extends BaseState<REQUEST> {
 
-    public AbortedState(BaseState<REQUEST> sourceState) {
+    public InterventionRequiredState(BaseState<REQUEST> sourceState) {
 	super(sourceState);
     }
 
@@ -17,7 +17,7 @@ public class AbortedState<REQUEST> extends BaseState<REQUEST> {
 
     @Override
     public TransactionState activate() {
-	flagStatus(TransactionStatus.FAILURE);
+	flagStatus(TransactionStatus.INTERVENTION_REQUIRED);
 	return this;
     }
 

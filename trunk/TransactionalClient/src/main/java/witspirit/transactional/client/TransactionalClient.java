@@ -1,7 +1,5 @@
 package witspirit.transactional.client;
 
-import java.util.concurrent.TimeoutException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,51 +16,34 @@ public class TransactionalClient<REQUEST> {
     }
     
     public Transaction<REQUEST> send(REQUEST request) {
-	TransactionImpl transaction = new TransactionImpl(request);
-	try {
-	    String transactionId = configuration.getRequestHandler().doSendRequest(request, false);
-	    transaction.setTransactionId(transactionId);
-	    configuration.getRequestHandler().transactionDone(request, transaction.getTransactionId(), TransactionStatus.SUCCESS);
-	} catch (TimeoutException e) {
-	    configuration.getRequestHandler().transactionDone(request, transaction.getTransactionId(), TransactionStatus.FAILURE);
-	}
-	return transaction;
+	return new TransactionImpl(request);
     }
     
     private class TransactionImpl implements Transaction<REQUEST> {
 	private final REQUEST request;
-	private String transactionId = null;
-	private TransactionState state = new IdleState();
+	private TransactionState state;
 	
 	public TransactionImpl(REQUEST request) {
 	    this.request = request;
-	    setState(new SendingRequestState<REQUEST>(request, configuration));
+	    this.state = new IdleState<REQUEST>(configuration, request);
+	    setState(new SendingRequestState<REQUEST>(configuration, request));
 	}
 	
 	private void setState(TransactionState state) {
 	    if (this.state != state) {
-		log.debug(String.format("Request %20s : STATE TRANSITION : %-20s -> %-20s", request, this.state.getClass().getSimpleName(), state.getClass().getSimpleName()));
+		log.debug(String.format("Req %-20s : TxId %-10s : %s -> %s", request, state.getTransactionId(), this.state, state));
 		this.state = state;
 		setState(this.state.activate());
 	    }
 	}
 	
 	public String getTransactionId() {
-	    return transactionId;
+	    return state.getTransactionId();
 	}
 	
-	public void setTransactionId(String transactionId) {
-	    this.transactionId = transactionId;
-	}
-
 	@Override
 	public void abort() {
-	    try {
-		configuration.getRequestHandler().doSendReversal(request, transactionId);
-		configuration.getRequestHandler().transactionDone(request, transactionId, TransactionStatus.FAILURE);
-	    } catch (TimeoutException e) {
-		configuration.getRequestHandler().transactionDone(request, transactionId, TransactionStatus.INTERVENTION_REQUIRED);
-	    }
+	    setState(state.abort());
 	}
 
 	@Override

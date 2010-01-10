@@ -5,33 +5,38 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import witspirit.transactional.client.Configuration;
 
-public class SendingRequestState<REQUEST> implements TransactionState {
-    private REQUEST request;
-    private Configuration<REQUEST> configuration;
-    private String transactionId;
+public class SendingRequestState<REQUEST> extends BaseState<REQUEST> {
     private AtomicBoolean abort = new AtomicBoolean(false);
+    private int attemptNr = 0;
 
-    public SendingRequestState(REQUEST request, Configuration<REQUEST> configuration) {
-	this.request = request;
-	this.configuration = configuration;
+    public SendingRequestState(Configuration<REQUEST> configuration, REQUEST request) {
+	super(configuration, request);
+    }
+    
+    public SendingRequestState(BaseState<REQUEST> sourceState, int attemptNr) {
+	super(sourceState);
+	this.attemptNr = attemptNr;
     }
     
     public TransactionState activate() {
 	try {
-	    transactionId = configuration.getRequestHandler().doSendRequest(request, false);
-	    // configuration.getRequestHandler().transactionDone(request, transactionId, TransactionStatus.SUCCESS);
+	    // TODO Take into account delay (if any) !
+	    sendRequest(attemptNr != 0);
 	    if (abort.get()) {
-		return new ReversalState<REQUEST>(request, configuration, transactionId, 0);
+		return new SendingReversalState<REQUEST>(this, 0);
 	    } else {
-		return new SuccessState<REQUEST>(request, configuration, transactionId);
+		return new SuccessState<REQUEST>(this);
 	    }
 	} catch (TimeoutException e) {
 	    if (abort.get()) {
-		return new AbortedState<REQUEST>(request, configuration, null);
+		return new SendingReversalState<REQUEST>(this, 0);
 	    } else {
-		return new ReversalState<REQUEST>(request, configuration, null, 0);
+		if (attemptNr < getMaximumRepeatAttempts()) {
+		    return new SendingRequestState<REQUEST>(this, attemptNr+1);
+		} else {
+		    return new SendingReversalState<REQUEST>(this, 0);
+		}
 	    }
-	    // configuration.getRequestHandler().transactionDone(request, transactionId, TransactionStatus.FAILURE);
 	}
     }
 
