@@ -55,6 +55,18 @@ public class TransactionalClientTest {
 	Assert.assertEquals(request, transaction.getRequest());
     }
     
+    @Test    
+    public void applicativeReversal() {
+	// TODO In real scenario's there are a lot of different timing possibilities
+	
+	TransactionalClient<TestRequest> client = client(new TestRequestHandler(false, false), new CompoundTestRecorder(new TestRecorder(TestRequestHandler.DEFAULT_TXID, TransactionStatus.SUCCESS), new TestRecorder(TestRequestHandler.DEFAULT_TXID, TransactionStatus.FAILURE)));
+	TestRequest request = new TestRequest("applicativeReversal");
+	Transaction<TestRequest> transaction = client.send(request);
+	transaction.abort();
+	Assert.assertEquals(TestRequestHandler.DEFAULT_TXID, transaction.getTransactionId());
+	Assert.assertEquals(request, transaction.getRequest());
+    }
+    
     private TransactionalClient<TestRequest> client(RequestHandler<TestRequest> requestHandler, TransactionRecorder<TestRequest> transactionRecorder) {
 	return new TransactionalClient<TestRequest>(new Configuration<TestRequest>(requestHandler, transactionRecorder));
     }
@@ -86,6 +98,20 @@ public class TransactionalClientTest {
 	public void transactionDone(TestRequest request, String transactionId, TransactionStatus status) {
 	    Assert.assertEquals(expectedTransactionId, transactionId);
 	    Assert.assertEquals(expectedStatus, status);
+	}
+    }
+    
+    private class CompoundTestRecorder implements TransactionRecorder<TestRequest> {
+	private TestRecorder[] recorders;
+	private int invocation = 0;
+	
+	public CompoundTestRecorder(TestRecorder... recorders) {
+	    this.recorders = recorders;
+	}
+
+	@Override
+	public void transactionDone(TestRequest request, String transactionId, TransactionStatus status) {
+	    recorders[invocation++].transactionDone(request, transactionId, status);
 	}
     }
     
