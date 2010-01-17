@@ -7,17 +7,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.geometry.Rectangle2D;
 
+def playArea = Screen.primary.visualBounds;
+
 def puzzleImage = Image {
     url: "{__DIR__}testImage.jpg";
     preserveRatio : true;
-    width : Screen.primary.visualBounds.width * 0.8;
-    height : Screen.primary.visualBounds.height * 0.8;
+    width : playArea.width * 0.8;
+    height : playArea.height * 0.8;
 }
 
 def puzzle = Puzzle {
     rows: 4;
     columns: 4;
     image: puzzleImage;
+    playArea : playArea;
 }
 
 var configurationScene = Scene {
@@ -30,10 +33,10 @@ var configurationScene = Scene {
 
 var screen = Stage {
     title: "Toddler Puzzle";
-    x : Screen.primary.visualBounds.minX;
-    y : Screen.primary.visualBounds.minY;
-    width : Screen.primary.visualBounds.width;
-    height : Screen.primary.visualBounds.height;
+    x : playArea.minX;
+    y : playArea.minY;
+    width : playArea.width;
+    height : playArea.height;
     scene: configurationScene;
 }
 
