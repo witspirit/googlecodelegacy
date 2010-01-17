@@ -24,7 +24,7 @@ def puzzle = Puzzle {
 }
 
 var configurationScene = Scene {
-    content: [
+    content: bind [
     	for (piece in puzzle.pieces) {
     	    piece.view;
     	}

@@ -13,7 +13,9 @@ public class Puzzle {
         image : image;
     };
     
-    public-read var pieces : Piece[];
+    public-read package var pieces : Piece[];
+    package var selectedPiece : Piece = null;
+    
     var pieceSize = Rectangle2D {
             	width: image.width / columns;
             	height: image.height / rows;
@@ -23,6 +25,7 @@ public class Puzzle {
         pieces = for (row in [0..rows]) {
             for (col in [0..columns]) {
          		Piece {
+         		    puzzle: this;
          		    image: image;
          		    part : Rectangle2D {
          		        minX: col*pieceSize.width;
@@ -40,6 +43,16 @@ public class Puzzle {
     public function shuffle() : Void {
         for (piece in pieces) {
             piece.scatter(playArea);
+        }
+    }
+    
+    package function pieceClicked(piece : Piece) : Void {
+        if (piece == selectedPiece) {
+            selectedPiece = null;
+        } else {
+            selectedPiece = piece;
+            delete piece from pieces;
+            insert piece into pieces;
         }
     }
     
