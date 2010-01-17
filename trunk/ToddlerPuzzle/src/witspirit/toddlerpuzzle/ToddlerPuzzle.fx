@@ -5,25 +5,26 @@ import javafx.stage.Screen;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.geometry.Rectangle2D;
 
 def puzzleImage = Image {
-    url: "file:/Users/witspirit/Pictures/iPhoto Library/Originals/2005/0506-02/050602-056.jpg";
+    url: "{__DIR__}testImage.jpg";
     preserveRatio : true;
+    width : Screen.primary.visualBounds.width * 0.8;
+    height : Screen.primary.visualBounds.height * 0.8;
 }
 
-
-
-
-def imagePreview = ImageView {
+def puzzle = Puzzle {
+    rows: 4;
+    columns: 4;
     image: puzzleImage;
-    preserveRatio : true;
-    fitWidth : Screen.primary.visualBounds.width * 0.8;
-    fitHeight : Screen.primary.visualBounds.height * 0.8;
 }
 
 var configurationScene = Scene {
     content: [
-    	imagePreview
+    	for (piece in puzzle.pieces) {
+    	    piece.view;
+    	}
     ]
 }
 
@@ -33,6 +34,6 @@ var screen = Stage {
     y : Screen.primary.visualBounds.minY;
     width : Screen.primary.visualBounds.width;
     height : Screen.primary.visualBounds.height;
+    scene: configurationScene;
 }
 
-screen.scene = configurationScene;
