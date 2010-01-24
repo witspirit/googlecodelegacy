@@ -49,7 +49,7 @@ public class Piece {
  	} 
  	
  	public function scatter(bounds: Rectangle2D) : Void {
- 	    x = Math.random() * (bounds.width - part.width) + bounds.minX;
- 	    y = Math.random() * (bounds.height - part.height) + bounds.minY;
+ 	    x = Math.random() * (bounds.width - part.width);
+ 	    y = Math.random() * (bounds.height - part.height);
  	}
 }
