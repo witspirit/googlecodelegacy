@@ -11,27 +11,30 @@ import javafx.geometry.Rectangle2D;
 def playArea = Rectangle2D {
     minX: 100;
     minY: 100;
-    width: 300;
-    height: 300;
+    width: 700;
+    height: 700;
 }
+def puzzleToAreaRatio = 0.4;
+def rows = 3;
+def columns = 3;
 
 def puzzleImage = Image {
     url: "{__DIR__}testImage.jpg";
     preserveRatio : true;
-    width : playArea.width * 0.7;
-    height : playArea.height * 0.7;
+    width : playArea.width * puzzleToAreaRatio;
+    height : playArea.height * puzzleToAreaRatio;
 }
 
 def puzzle = Puzzle {
-    rows: 3;
-    columns: 3;
+    rows: rows;
+    columns: columns;
     image: puzzleImage;
     playArea : playArea;
 }
 
 var targetArea = puzzle.targetArea;
-targetArea.translateX = 10;
-targetArea.translateY = 10;
+targetArea.translateX = 30;
+targetArea.translateY = 15;
 
 var configurationScene = Scene {
     content: bind [
