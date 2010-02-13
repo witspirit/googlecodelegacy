@@ -30,18 +30,13 @@ def puzzle = Puzzle {
     columns: columns;
     image: puzzleImage;
     playArea : playArea;
+    frameX : 100;
+    frameY : 100;
 }
 
-var targetArea = puzzle.targetArea;
-targetArea.translateX = 30;
-targetArea.translateY = 15;
-
-var configurationScene = Scene {
-    content: bind [
-    	targetArea,
-    	for (piece in puzzle.pieces) {
-    	    piece.view;
-    	}
+var playScene = Scene {
+    content: [
+    	puzzle
     ]
 }
 
@@ -51,6 +46,6 @@ var screen = Stage {
     y : playArea.minY;
     width : playArea.width;
     height : playArea.height;
-    scene: configurationScene;
+    scene: playScene;
 }
 
