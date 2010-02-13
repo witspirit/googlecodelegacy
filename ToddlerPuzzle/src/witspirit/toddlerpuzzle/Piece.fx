@@ -9,64 +9,121 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextOrigin;
 import javafx.scene.Node;
 import javafx.geometry.Bounds;
+import javafx.scene.CustomNode;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
-import java.lang.Math;
-
-public class Piece {
+public class Piece extends CustomNode {
     public-init var puzzle: Puzzle;
     public-init var image: Image;
-    public-init var part: Rectangle2D;
-    var x : Number;
-    var y : Number;
+    public-init var width : Number;
+    public-init var height : Number;
+    public-init var row : Integer;
+    public-init var column : Integer;
+    public var x : Number;
+    public var y : Number;
+        
+    def dropZone: Rectangle2D = Rectangle2D {
+    	minX : puzzle.frameX + column*width;
+    	minY : puzzle.frameY + row*height;
+    	width : width;
+    	height : height;
+    };
+    def imageSection : Rectangle2D = Rectangle2D {
+        minX : column*width;
+        minY : row*height;
+        width : width;
+        height : height;
+    }
+    
     var selected = bind puzzle.selectedPiece == this;
     var clickedOffsetX : Number;
     var clickedOffsetY : Number ;
+    var isNearDropZone : Boolean = false;
+    var isPlaced : Boolean = false;
     
-    public-read var view = Group {
-        var viewport : ImageView;
-    	content: [
-    		viewport = ImageView {
-		 	    image: image;
-		 	    viewport : part;
-		 	    translateX : bind x;
-		 	    translateY : bind y;
-		 	    blocksMouse : true;
-		 	    
-		 	    effect: bind if(selected) {
-		 	    	DropShadow {
-		 	    	    radius: 20;
-		 	    	    offsetX: 10;
-		 	    	    offsetY: 10;
-		 	    	}  
-		 	    } else {
-		 	    	null;
-		 	    };
-		 	    
-		 	    onMouseClicked : function(event) {
-		 	        puzzle.pieceClicked(this);
-		 	        clickedOffsetX = event.sceneX-x;
-		 	        clickedOffsetY = event.sceneY-y;
-		 	    };
-		 	    
-		 	    onMouseMoved : function(event) {
-		 	      	if (selected) {
-		 	      	    x = event.sceneX - clickedOffsetX;
-		 	      	    y = event.sceneY - clickedOffsetY;
-		 	      	}  
-		 	    };
-		 	},
-		 	Text {
-		 	    content : bind logBounds(viewport);
-		 	    translateX : bind x+10;
-		 	    translateY : bind y+part.height;
-		 	    textOrigin : TextOrigin.TOP;
-		 	    visible: bind selected;
-		 	}
-    	]
-    } 
+    override function create() : Node {
+        Group {
+            var viewport : ImageView;
+        	content: [
+        		Rectangle {
+        		    x : dropZone.minX;
+        		    y : dropZone.minY;
+        		    width : dropZone.width;
+        		    height: dropZone.height;
+        		    stroke : Color.YELLOW;
+        		    strokeWidth : 2.0;
+        		    fill : null;
+        		    visible : bind not isPlaced and isNearDropZone;
+        		},
+        		viewport = ImageView {
+    		 	    image: image;
+    		 	    viewport : imageSection;
+    		 	    translateX : bind x;
+    		 	    translateY : bind y;
+    		 	    blocksMouse : true;
+    		 	    
+    		 	    effect: bind if(selected) {
+    		 	    	DropShadow {
+    		 	    	    radius: 20;
+    		 	    	    offsetX: 10;
+    		 	    	    offsetY: 10;
+    		 	    	}  
+    		 	    } else {
+    		 	    	null;
+    		 	    };
+    		 	    
+    		 	    onMouseClicked : function(event) {
+    		 	        if (not isPlaced) {
+    		 	        	puzzle.pieceClicked(this);
+    		 	        	clickedOffsetX = event.sceneX-x;
+    		 	        	clickedOffsetY = event.sceneY-y;
+    		 	        	if (not selected) {
+    		 	        	    // We were just dropped
+    		 	        	    if (isNearDropZone) {
+    		 	        	        // Snap to place
+    		 	        	        x = dropZone.minX;
+    		 	        	        y = dropZone.minY;
+    		 	        	        isPlaced = true;
+    		 	        	    }
+    		 	        	}
+    		 	        }
+    		 	    };
+    		 	    
+    		 	    onMouseMoved : function(event) {
+    		 	      	if (selected) {
+    		 	      	    x = event.sceneX - clickedOffsetX;
+    		 	      	    y = event.sceneY - clickedOffsetY;
+    		 	      	    isNearDropZone = nearDropZone(x,y);
+    		 	      	}  
+    		 	    };
+    		 	},
+    		 	//Text {
+    		 	//    content : bind logBounds(viewport);
+    		 	//    translateX : bind x+10;
+    		 	//    translateY : bind y+part.height;
+    		 	//    textOrigin : TextOrigin.TOP;
+    		 	//    visible: bind selected;
+    		 	//}
+        	]
+        } 
+    }
+    
+    function nearDropZone(x : Number, y : Number) : Boolean {
+        var xDistance : Number = x - dropZone.minX;
+        if (xDistance < 0) {
+            xDistance = -xDistance;
+        }
+        var yDistance : Number = y - dropZone.minY;
+        if (yDistance < 0) {
+            yDistance = -yDistance;
+        }
+        return xDistance < 20 and yDistance < 20;
+    }
     
     bound function logBounds(node : Node) : String {
-        return "boundsInLocal = {relevantBounds(node.boundsInLocal)}\n"
+        return "x={x} y={y} part = {dropZone.minX},{dropZone.minY}\n"
+               "boundsInLocal = {relevantBounds(node.boundsInLocal)}\n"
                "boundsInParent({node.parent}) = {relevantBounds(node.boundsInParent)}\n"
                "layoutBounds = {relevantBounds(node.layoutBounds)}";
     }
@@ -75,8 +132,4 @@ public class Piece {
         return "minX = {bounds.minX} minY={bounds.minY}";
     }
  	
- 	public function scatter(bounds: Rectangle2D) : Void {
- 	    x = Math.random() * (bounds.width - part.width);
- 	    y = Math.random() * (bounds.height - part.height);
- 	}
 }

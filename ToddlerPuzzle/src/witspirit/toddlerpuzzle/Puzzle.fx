@@ -7,12 +7,18 @@ import javafx.scene.Group;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Line;
 import javafx.scene.paint.Color;
+import javafx.scene.CustomNode;
+import javafx.scene.Node;
 
-public class Puzzle {
+import java.lang.Math;
+
+public class Puzzle extends CustomNode {
     public-init var rows : Integer;
     public-init var columns : Integer;
     public-init var image : Image; 
     public-init var playArea : Rectangle2D;
+    public-init var frameX : Number;
+    public-init var frameY : Number;
     var pieceSize = Rectangle2D {
                 	width: image.width / columns;
                 	height: image.height / rows;
@@ -21,66 +27,52 @@ public class Puzzle {
         image : image;
     };
     
-    
-    public-read var targetArea : Group = Group {
-		content: [
-			Rectangle {
-			    x: 0;
-			    y: 0;
-			    width: image.width;
-			    height: image.height;
-			    fill: null;
-			    stroke: Color.BLACK;
-			    strokeWidth: 2;
-			},
-			for (row in [1..rows-1]) {
-			    for (col in [1..columns-1]) {
-			        [
-				        Line {
-				            startX : col*pieceSize.width;
-				            endX : col*pieceSize.width;
-				            startY : 0;
-				            endY: image.height;
-				        },
-						Line {
-				            startX : 0;
-				            endX : image.width;
-				            startY : row*pieceSize.height;
-				            endY: row*pieceSize.height;
-				        },				        
-			        ]
-			    }
-			}
-		]        
-    }
-    
     public-read package var pieces : Piece[];
     package var selectedPiece : Piece = null;
     
     
-    
     init {
         pieces = for (row in [0..rows]) {
-            for (col in [0..columns]) {
-         		Piece {
-         		    puzzle: this;
-         		    image: image;
-         		    part : Rectangle2D {
-         		        minX: col*pieceSize.width;
-         		        minY: row*pieceSize.height;
-         		        width: pieceSize.width;
-         		        height: pieceSize.height;
-         		    };
-         		}
-            }
-        }
+    	            for (col in [0..columns]) {
+    	         		Piece {
+    	         		    puzzle: this;
+    	         		    image: image;
+    	         		    row : row;
+    	         		    column : col;
+    	         		    width: pieceSize.width;
+    	         		    height: pieceSize.height;
+    	         		}
+    	            }
+    	        }
         
         shuffle();
     }
     
+    override function create() : Node {
+        Group {
+            content: bind [
+            	Group {
+    	    		content: [
+    	    			Rectangle {
+    	    			    x: frameX;
+    	    			    y: frameY;
+    	    			    width: image.width;
+    	    			    height: image.height;
+    	    			    fill: null;
+    	    			    stroke: Color.BLACK;
+    	    			    strokeWidth: 2;
+    	    			},
+    	    		]        
+    	        },
+            	pieces
+            ]
+        }
+    }
+    
     public function shuffle() : Void {
         for (piece in pieces) {
-            piece.scatter(playArea);
+            piece.x = Math.random() * (playArea.width - pieceSize.width);
+            piece.y = Math.random() * (playArea.height - pieceSize.height);
         }
     }
     
