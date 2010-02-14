@@ -7,19 +7,23 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.geometry.Rectangle2D;
 
-// def playArea = Screen.primary.visualBounds;
-def playArea = Rectangle2D {
-    minX: 100;
-    minY: 100;
-    width: 700;
-    height: 700;
-}
-def puzzleToAreaRatio = 0.4;
+def playArea = Screen.primary.visualBounds;
+// def playArea = Rectangle2D {
+//    minX: 100;
+//    minY: 100;
+//    width: 700;
+//    height: 700;
+// }
+
+def puzzleToAreaRatio = 0.7;
 def rows = 3;
 def columns = 3;
+// def imageUrl = "{__DIR__}testImage.jpg";
+// def imageUrl = "http://farm3.static.flickr.com/2486/4100325856_c9872ac655_b_d.jpg";
+def imageUrl = "http://farm3.static.flickr.com/2666/4240174977_815312779e_b_d.jpg";
 
 def puzzleImage = Image {
-    url: "{__DIR__}testImage.jpg";
+    url: imageUrl;
     preserveRatio : true;
     width : playArea.width * puzzleToAreaRatio;
     height : playArea.height * puzzleToAreaRatio;
@@ -47,5 +51,6 @@ var screen = Stage {
     width : playArea.width;
     height : playArea.height;
     scene: playScene;
+    fullScreen : true;
 }
 

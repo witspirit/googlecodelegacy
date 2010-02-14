@@ -23,6 +23,7 @@ public class Piece extends CustomNode {
     public var x : Number;
     public var y : Number;
         
+    def nearDistance = 30;
     def dropZone: Rectangle2D = Rectangle2D {
     	minX : puzzle.frameX + column*width;
     	minY : puzzle.frameY + row*height;
@@ -37,8 +38,6 @@ public class Piece extends CustomNode {
     }
     
     var selected = bind puzzle.selectedPiece == this;
-    var clickedOffsetX : Number;
-    var clickedOffsetY : Number ;
     var isNearDropZone : Boolean = false;
     var isPlaced : Boolean = false;
     
@@ -70,14 +69,12 @@ public class Piece extends CustomNode {
     		 	    	    offsetY: 10;
     		 	    	}  
     		 	    } else {
-    		 	    	null;
+    		 	        null;
     		 	    };
     		 	    
-    		 	    onMouseClicked : function(event) {
+    		 	    onMousePressed : function(event) {
     		 	        if (not isPlaced) {
     		 	        	puzzle.pieceClicked(this);
-    		 	        	clickedOffsetX = event.sceneX-x;
-    		 	        	clickedOffsetY = event.sceneY-y;
     		 	        	if (not selected) {
     		 	        	    // We were just dropped
     		 	        	    if (isNearDropZone) {
@@ -92,8 +89,8 @@ public class Piece extends CustomNode {
     		 	    
     		 	    onMouseMoved : function(event) {
     		 	      	if (selected) {
-    		 	      	    x = event.sceneX - clickedOffsetX;
-    		 	      	    y = event.sceneY - clickedOffsetY;
+    		 	      	    x = event.sceneX - width/2;
+    		 	      	    y = event.sceneY - height/2;
     		 	      	    isNearDropZone = nearDropZone(x,y);
     		 	      	}  
     		 	    };
@@ -118,7 +115,7 @@ public class Piece extends CustomNode {
         if (yDistance < 0) {
             yDistance = -yDistance;
         }
-        return xDistance < 20 and yDistance < 20;
+        return xDistance < nearDistance and yDistance < nearDistance;
     }
     
     bound function logBounds(node : Node) : String {
