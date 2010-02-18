@@ -37,6 +37,7 @@ def puzzle = Puzzle {
     frameX : 100;
     frameY : 100;
 }
+puzzle.onDone = puzzle.shuffle;
 
 var playScene = Scene {
     content: [
@@ -51,6 +52,6 @@ var screen = Stage {
     width : playArea.width;
     height : playArea.height;
     scene: playScene;
-    fullScreen : true;
+    fullScreen : false;
 }
 
