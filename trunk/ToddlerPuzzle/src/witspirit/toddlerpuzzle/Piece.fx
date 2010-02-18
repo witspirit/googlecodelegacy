@@ -12,6 +12,9 @@ import javafx.geometry.Bounds;
 import javafx.scene.CustomNode;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Lighting;
+import javafx.scene.effect.light.DistantLight;
 
 public class Piece extends CustomNode {
     public-init var puzzle: Puzzle;
@@ -24,7 +27,7 @@ public class Piece extends CustomNode {
     public var y : Number;
         
     def nearDistance = 30;
-    def dropZone: Rectangle2D = Rectangle2D {
+    public-read def dropZone: Rectangle2D = Rectangle2D {
     	minX : puzzle.frameX + column*width;
     	minY : puzzle.frameY + row*height;
     	width : width;
@@ -37,9 +40,9 @@ public class Piece extends CustomNode {
         height : height;
     }
     
-    var selected = bind puzzle.selectedPiece == this;
-    var isNearDropZone : Boolean = false;
-    var isPlaced : Boolean = false;
+    public-read var selected = bind puzzle.selectedPiece == this;
+    public-read var isNearDropZone : Boolean = bind nearDropZone(x, y);
+    public var isPlaced : Boolean = false;
     
     override function create() : Node {
         Group {
@@ -54,54 +57,45 @@ public class Piece extends CustomNode {
         		    strokeWidth : 2.0;
         		    fill : null;
         		    visible : bind not isPlaced and isNearDropZone;
+        		    effect: Glow {
+        		    	level: 0.8;
+        		    };
         		},
         		viewport = ImageView {
     		 	    image: image;
     		 	    viewport : imageSection;
     		 	    translateX : bind x;
     		 	    translateY : bind y;
-    		 	    blocksMouse : true;
+    		 	    blocksMouse : bind not isPlaced;
     		 	    
     		 	    effect: bind if(selected) {
-    		 	    	DropShadow {
-    		 	    	    radius: 20;
-    		 	    	    offsetX: 10;
-    		 	    	    offsetY: 10;
-    		 	    	}  
-    		 	    } else {
-    		 	        null;
-    		 	    };
+    		 	            DropShadow {
+ 	    	    				radius: 20;
+	    		 	    	    offsetX: 10;
+	    		 	    	    offsetY: 10;
+	    		 	    	};
+	    		 	    } else {
+	    		 	        null;
+	    		 	    };
     		 	    
     		 	    onMousePressed : function(event) {
-    		 	        if (not isPlaced) {
-    		 	        	puzzle.pieceClicked(this);
-    		 	        	if (not selected) {
-    		 	        	    // We were just dropped
-    		 	        	    if (isNearDropZone) {
-    		 	        	        // Snap to place
-    		 	        	        x = dropZone.minX;
-    		 	        	        y = dropZone.minY;
-    		 	        	        isPlaced = true;
-    		 	        	    }
-    		 	        	}
-    		 	        }
+    		 	        puzzle.piecePressed(this);
     		 	    };
     		 	    
     		 	    onMouseMoved : function(event) {
     		 	      	if (selected) {
     		 	      	    x = event.sceneX - width/2;
     		 	      	    y = event.sceneY - height/2;
-    		 	      	    isNearDropZone = nearDropZone(x,y);
     		 	      	}  
     		 	    };
+    		 	    
+    		 	    onMouseDragged : function(event) {
+    		 	        if (selected) {
+    		 	            x = event.sceneX - width/2;
+    		 	            y = event.sceneY - height/2;
+    		 	        }
+    		 	    }
     		 	},
-    		 	//Text {
-    		 	//    content : bind logBounds(viewport);
-    		 	//    translateX : bind x+10;
-    		 	//    translateY : bind y+part.height;
-    		 	//    textOrigin : TextOrigin.TOP;
-    		 	//    visible: bind selected;
-    		 	//}
         	]
         } 
     }
@@ -117,16 +111,4 @@ public class Piece extends CustomNode {
         }
         return xDistance < nearDistance and yDistance < nearDistance;
     }
-    
-    bound function logBounds(node : Node) : String {
-        return "x={x} y={y} part = {dropZone.minX},{dropZone.minY}\n"
-               "boundsInLocal = {relevantBounds(node.boundsInLocal)}\n"
-               "boundsInParent({node.parent}) = {relevantBounds(node.boundsInParent)}\n"
-               "layoutBounds = {relevantBounds(node.layoutBounds)}";
-    }
-    
-    bound function relevantBounds(bounds : Bounds) : String {
-        return "minX = {bounds.minX} minY={bounds.minY}";
-    }
- 	
 }
