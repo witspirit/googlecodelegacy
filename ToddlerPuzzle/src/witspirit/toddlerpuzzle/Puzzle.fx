@@ -17,8 +17,8 @@ public class Puzzle extends CustomNode {
     public-init var columns : Integer;
     public-init var image : Image; 
     public-init var playArea : Rectangle2D;
-    public-init var frameX : Number;
-    public-init var frameY : Number;
+    public-init var frameX : Number = (playArea.width-image.width)/2;
+    public-init var frameY : Number = (playArea.height-image.height)/2;
     public var onDone : function() : Void;
     var pieceSize = Rectangle2D {
                 	width: image.width / columns;
