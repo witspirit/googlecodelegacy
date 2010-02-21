@@ -53,9 +53,9 @@ public class Piece extends CustomNode {
         		    y : dropZone.minY;
         		    width : dropZone.width;
         		    height: dropZone.height;
-        		    stroke : Color.YELLOW;
+        		    stroke : Color.ORANGE;
         		    strokeWidth : 2.0;
-        		    fill : null;
+        		    fill : Color.YELLOW;
         		    visible : bind not isPlaced and isNearDropZone;
         		    effect: Glow {
         		    	level: 0.8;
