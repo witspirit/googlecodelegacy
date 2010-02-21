@@ -11,6 +11,7 @@ import javafx.scene.CustomNode;
 import javafx.scene.Node;
 import javafx.geometry.Bounds;
 import javafx.geometry.BoundingBox;
+import javafx.scene.effect.InnerShadow;
 
 import java.lang.Math;
 
@@ -53,13 +54,17 @@ public class Puzzle extends CustomNode {
             	Group {
     	    		content: [
     	    			Rectangle {
-    	    			    x: frameX;
-    	    			    y: frameY;
-    	    			    width: image.width;
-    	    			    height: image.height;
-    	    			    fill: null;
+    	    			    x: frameX-4;
+    	    			    y: frameY-4;
+    	    			    width: image.width+4;
+    	    			    height: image.height+4;
+    	    			    fill: Color.WHITE;
     	    			    stroke: Color.BLACK;
     	    			    strokeWidth: 2;
+    	    			    effect: InnerShadow {
+    	    			    	offsetX : 5;
+    	    			    	offsetY : 5;
+    	    			    };
     	    			},
     	    		]        
     	        },
