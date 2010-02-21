@@ -9,6 +9,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.paint.Color;
 import javafx.scene.CustomNode;
 import javafx.scene.Node;
+import javafx.geometry.Bounds;
+import javafx.geometry.BoundingBox;
 
 import java.lang.Math;
 
@@ -68,10 +70,35 @@ public class Puzzle extends CustomNode {
     
     public function shuffle() : Void {
         for (piece in pieces) {
+    	    piece.isPlaced = false;
             piece.x = Math.random() * (playArea.width - pieceSize.width);
-            piece.y = Math.random() * (playArea.height - pieceSize.height);
-            piece.isPlaced = false;
+	        piece.y = Math.random() * (playArea.height - pieceSize.height);
+            while (isOverlapped(piece)) {
+	            piece.x = Math.random() * (playArea.width - pieceSize.width);
+    	        piece.y = Math.random() * (playArea.height - pieceSize.height);
+            }
         }
+    }
+    
+    function isOverlapped(piece: Piece) : Boolean {
+        // println("isOverlapped - {piece.row},{piece.row} -> {piece.boundsInLocal}"); 
+        
+        for (otherPiece in pieces) {
+            if (otherPiece != piece) {
+                // println("{otherPiece.row},{otherPiece.column} - {otherPiece.boundsInLocal}");
+     			if (intersection(piece.boundsInLocal, otherPiece.boundsInLocal)) {
+     			    // println("{piece.row},{piece.row} intersects with {otherPiece.row},{otherPiece.column}");
+     			    return true;
+     			} else {
+     			    // println("{piece.row},{piece.row} does not intersect with {otherPiece.row},{otherPiece.column}");
+     			}          
+            }
+        }
+        return intersection(piece.boundsInLocal, BoundingBox {minX: frameX; minY: frameY; width: image.width; height: image.height});
+    }
+    
+    function intersection(b1:Bounds, b2:Bounds) : Boolean {
+        return b1.maxX >= b2.minX and b1.minX <= b2.maxX and b1.maxY >= b2.minY and b1.minY <= b2.maxY;
     }
     
     package function piecePressed(piece : Piece) {
