@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+    <link rel="stylesheet" media="screen" type="text/css" href="http://yui.yahooapis.com/combo?3.0.0/build/cssreset/reset-min.css&3.0.0/build/cssfonts/fonts-min.css&3.0.0/build/cssgrids/grids-min.css" />
+ 	<link rel="stylesheet" media="screen" type="text/css" href="/assets/css/main.css" />
+ 	
+ 	<link rel="shortcut icon" href="/assets/gfx/favicon.ico"/>
+    
+    <title><wicket:message key="application.title">[Winkel Planner]</wicket:message></title>
+  </head>
+
+  <body>
+    <!-- Google Analytics Tracker -->
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-309954-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+  })();
+
+	</script>
+  	<div class="yui-d3">
+  		<div class="header">
+    		<h1 id="header"><wicket:message key="application.title">[Winkel Planner]</wicket:message></h1>
+    		<div class="loginInfo">
+    			<a href="#" wicket:id="login"><wicket:message key="application.login">[login]</wicket:message></a>
+    			<wicket:container wicket:id="userInfo">
+    				<span wicket:id="username">[Username]</span> | <a href="#" wicket:id="logout"><wicket:message key="application.logout">[logout]</wicket:message></a>
+    			</wicket:container>
+    		</div>
+    		
+    		<div class="navigation-menu">
+    			<wicket:link>
+    			<ul>
+    				<li><a href="/"><wicket:message key="application.nav.home">[home]</wicket:message></a></li>
+    				<li><a href="/products"><wicket:message key="application.nav.products">[products]</wicket:message></a></li>
+    				<li><a href="/shops"><wicket:message key="application.nav.shops">[shops]</wicket:message></a></li>
+    			</ul>
+    			</wicket:link>
+    		</div>
+    		
+    		<p>
+			Should contain main navigation and login/logout functionality
+			</p>
+		</div>
+    	
+    	<div class="yui-t5">
+    		<div class="yui-main">
+    			<div class="yui-b">
+    				<div class="main-body">
+    					<wicket:child>
+	   						<p>
+							Main content should go here and is the part that is extended by the other pages
+							</p>
+    					</wicket:child>
+					</div>
+    			</div>
+    		</div>
+    		<div class="yui-b">
+    			<div class="adds">
+	    		<p>
+				[Advertising area]
+				</p>
+				</div>
+    		</div>
+    	</div>
+    	
+		<div class="footer">
+			<div class="quicklinks">
+			</div>
+			<p class="legal">
+			<wicket:message key="application.legal.footer">[Copyright &copy; 2010 Bert Van Vlerken Alle Rechten Voorbehouden]</wicket:message>
+			</p>
+		</div>
+	
+    </div>
+  </body>
+</html>
