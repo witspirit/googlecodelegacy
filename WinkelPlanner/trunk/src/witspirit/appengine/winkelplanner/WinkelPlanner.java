@@ -1,6 +1,9 @@
 package witspirit.appengine.winkelplanner;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.Request;
+import org.apache.wicket.Response;
+import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.HttpSessionStore;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.session.ISessionStore;
@@ -39,6 +42,11 @@ public class WinkelPlanner extends WebApplication {
         // AppEngine does not allow writing to disk, thus no DiskPageStore should be used
         // return new SecondLevelCacheSessionStore(this, new DiskPageStore());
         return new HttpSessionStore(this);
+    }
+    
+    @Override
+    public Session newSession(Request request, Response response) {
+        return new WinkelPlannerSession(request);
     }
 
 }
