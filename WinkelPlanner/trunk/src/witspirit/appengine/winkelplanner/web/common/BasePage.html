@@ -5,11 +5,11 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     
-    <link rel="stylesheet" media="screen" type="text/css" href="http://yui.yahooapis.com/combo?3.0.0/build/cssreset/reset-min.css&3.0.0/build/cssfonts/fonts-min.css&3.0.0/build/cssgrids/grids-min.css" />
- 	<link rel="stylesheet" media="screen" type="text/css" href="/assets/css/main.css" />
+    <wicket:link>
+    	<link rel="stylesheet" media="screen" type="text/css" href="css/main.css" />
  	
- 	<link rel="shortcut icon" href="/assets/gfx/favicon.ico"/>
-    
+ 		<link rel="shortcut icon" href="gfx/favicon.ico"/>
+    </wicket:link>
     <title><wicket:message key="application.title">[Winkel Planner]</wicket:message></title>
   </head>
 
@@ -27,9 +27,9 @@
   })();
 
 	</script>
-  	<div class="yui-d3">
-  		<div class="header">
-    		<h1 id="header"><wicket:message key="application.title">[Winkel Planner]</wicket:message></h1>
+  	<div id="page">
+  		<div id="header">
+    		<h1 class="title"><wicket:message key="application.title">[Winkel Planner]</wicket:message></h1>
     		<div class="loginInfo">
     			<a href="#" wicket:id="login"><wicket:message key="application.login">[login]</wicket:message></a>
     			<wicket:container wicket:id="userInfo">
@@ -38,42 +38,27 @@
     		</div>
     		
     		<div class="navigation-menu">
-    			<wicket:link>
     			<ul>
-    				<li><a href="/"><wicket:message key="application.nav.home">[home]</wicket:message></a></li>
-    				<li><a href="/products"><wicket:message key="application.nav.products">[products]</wicket:message></a></li>
-    				<li><a href="/shops"><wicket:message key="application.nav.shops">[shops]</wicket:message></a></li>
+    				<li><a wicket:id="listsLink" href="#"><wicket:message key="application.nav.home">[home]</wicket:message></a></li>
+    				<li><a wicket:id="productsLink" href="#"><wicket:message key="application.nav.products">[products]</wicket:message></a></li>
+    				<li><a wicket:id="shopsLink" href="#"><wicket:message key="application.nav.shops">[shops]</wicket:message></a></li>
     			</ul>
-    			</wicket:link>
     		</div>
     		
-    		<p>
-			Should contain main navigation and login/logout functionality
-			</p>
 		</div>
-    	
-    	<div class="yui-t5">
-    		<div class="yui-main">
-    			<div class="yui-b">
-    				<div class="main-body">
-    					<wicket:child>
-	   						<p>
-							Main content should go here and is the part that is extended by the other pages
-							</p>
-    					</wicket:child>
-					</div>
-    			</div>
-    		</div>
-    		<div class="yui-b">
-    			<div class="adds">
-	    		<p>
+		
+    	<div id="body">
+    		<div class="left">
+				<wicket:child>
+					Main content should go here and is the part that is extended by the other pages
+				</wicket:child>
+			</div>
+   			<div class="right">
 				[Advertising area]
-				</p>
-				</div>
-    		</div>
+			</div>
     	</div>
     	
-		<div class="footer">
+		<div id="footer">
 			<div class="quicklinks">
 			</div>
 			<p class="legal">
