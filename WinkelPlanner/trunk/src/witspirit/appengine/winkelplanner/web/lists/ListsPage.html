@@ -5,17 +5,22 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     
-    <link rel="stylesheet" media="screen" type="text/css" href="http://yui.yahooapis.com/combo?3.0.0/build/cssreset/reset-min.css&3.0.0/build/cssfonts/fonts-min.css&3.0.0/build/cssgrids/grids-min.css" />
- 	<link rel="stylesheet" media="screen" type="text/css" href="/assets/css/main.css" />
+ 	<link rel="stylesheet" media="screen" type="text/css" href="../common/css/main.css" />
  	
- 	<link rel="shortcut icon" href="/assets/gfx/favicon.ico"/>
+ 	<link rel="shortcut icon" href="../common/gfx/favicon.ico"/>
     
     <title><wicket:message key="application.title">[Winkel Planner]</wicket:message></title>
   </head>
 
   <body>
-	<wicket:extend>
-		Lists page
-	</wicket:extend>
+  	<div id="page">
+  		<div id="body">
+  			<div class="left">
+				<wicket:extend>
+					Lists page
+				</wicket:extend>
+			</div>
+		</div>
+	</div>
   </body>
 </html>

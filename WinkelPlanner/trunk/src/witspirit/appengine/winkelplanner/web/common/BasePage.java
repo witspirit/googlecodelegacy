@@ -1,5 +1,7 @@
 package witspirit.appengine.winkelplanner.web.common;
 
+import org.apache.wicket.Page;
+import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -7,6 +9,7 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.ExternalLink;
 
 import witspirit.appengine.winkelplanner.web.lists.ListsPage;
+import witspirit.appengine.winkelplanner.web.overview.OverviewPage;
 import witspirit.appengine.winkelplanner.web.products.ProductsPage;
 import witspirit.appengine.winkelplanner.web.shops.ShopsPage;
 
@@ -37,11 +40,18 @@ public class BasePage extends WebPage {
             login.setVisible(false);
         }
         
-        add(new BookmarkablePageLink<Void>("listsLink", ListsPage.class));
-        add(new BookmarkablePageLink<Void>("productsLink", ProductsPage.class));
-        add(new BookmarkablePageLink<Void>("shopsLink", ShopsPage.class));
-        
-
+        registerNavigation("overviewLink", OverviewPage.class);
+        registerNavigation("listsLink", ListsPage.class);
+        registerNavigation("productsLink", ProductsPage.class);
+        registerNavigation("shopsLink", ShopsPage.class);
+    }
+    
+    private void registerNavigation(String id, Class<? extends Page> targetPage) {
+        BookmarkablePageLink<Void> link = new BookmarkablePageLink<Void>(id, targetPage);
+        if (this.getPageClass() == targetPage) {
+            link.add(new SimpleAttributeModifier("class", "currentPage"));
+        }
+        add(link);
     }
 
     protected User getUser() {

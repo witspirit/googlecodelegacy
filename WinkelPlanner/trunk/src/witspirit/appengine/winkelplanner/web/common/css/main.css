@@ -33,6 +33,10 @@ body {
 	float: left;
 }
 
+.navigation-menu .currentPage {
+	font-weight: bold;
+}
+
 .navigation-menu a {
 	display:block;
 	text-decoration: none;
