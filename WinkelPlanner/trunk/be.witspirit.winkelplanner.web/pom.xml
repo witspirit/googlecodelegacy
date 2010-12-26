@@ -70,6 +70,19 @@
   </profiles>
   
   <build>
+    <resources>
+      <resource>
+        <filtering>false</filtering>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+  
     <plugins>
       <!--
         The actual maven-gae-plugin. Type "mvn gae:run" to run project, "mvn gae:update"

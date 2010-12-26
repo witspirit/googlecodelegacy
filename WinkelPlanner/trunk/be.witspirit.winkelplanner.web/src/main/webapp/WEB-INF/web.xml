@@ -5,7 +5,7 @@
     <filter-class>org.apache.wicket.protocol.http.WicketFilter</filter-class>
     <init-param>
       <param-name>applicationClassName</param-name>
-      <param-value>be.witspirit.winkelplanner.GaeWicketApplication</param-value>
+      <param-value>be.witspirit.winkelplanner.web.WinkelPlannerApplication</param-value>
     </init-param>
   </filter>
   <filter-mapping>
