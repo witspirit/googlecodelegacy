@@ -7,7 +7,7 @@ import be.witspirit.winkelplanner.web.common.BasePage;
 public class HomePage extends BasePage {
 
   public HomePage() {
-    add(new Label("hello", "Hello World"));
+    add(new Label("hello", "Winkel Planner, de snelste route door de winkel"));
   }
 
 }

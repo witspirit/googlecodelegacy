@@ -18,6 +18,8 @@ public class WinkelPlannerApplication extends WebApplication
     protected void init() {
       super.init();
       getResourceSettings().setResourcePollFrequency(null);
+      
+      mountBookmarkablePage("HomePage.html", HomePage.class);
     }
 
     @Override
