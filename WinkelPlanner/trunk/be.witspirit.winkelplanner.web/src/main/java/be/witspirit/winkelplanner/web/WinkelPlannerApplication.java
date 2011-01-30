@@ -1,6 +1,10 @@
 package be.witspirit.winkelplanner.web;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.Request;
+import org.apache.wicket.Response;
+import org.apache.wicket.Session;
+import org.apache.wicket.guice.GuiceComponentInjector;
 import org.apache.wicket.protocol.http.HttpSessionStore;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.session.ISessionStore;
@@ -18,6 +22,7 @@ public class WinkelPlannerApplication extends WebApplication
     protected void init() {
       super.init();
       getResourceSettings().setResourcePollFrequency(null);
+      addComponentInstantiationListener(new GuiceComponentInjector(this, new WinkelPlannerModule()));
       
       mountBookmarkablePage("HomePage.html", HomePage.class);
     }
@@ -25,5 +30,10 @@ public class WinkelPlannerApplication extends WebApplication
     @Override
     protected ISessionStore newSessionStore() {
       return new HttpSessionStore(this);
+    }
+    
+    @Override
+    public Session newSession(Request request, Response response) {
+        return new WinkelPlannerSession(request);
     }
 }

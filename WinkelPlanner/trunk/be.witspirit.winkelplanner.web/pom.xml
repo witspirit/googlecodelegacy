@@ -15,19 +15,36 @@
   <properties>
     <!-- Specify AppEngine version for your project. It should match SDK version pointed to by ${gae.home} property (Typically, 
       one used by your Eclipse plug-in) -->
-    <gae.version>1.4.0</gae.version>
+    <!-- <gae.version>1.4.0</gae.version> -->
+    <gae.version>1.4.0</gae.version> <!-- I actually want to use 1.4, but not all artifacts are present yet -->
 
     <!-- Upload to http://test.latest.<applicationName>.appspot.com by default -->
     <gae.application.version>test</gae.application.version>
     <!-- port defaults to 8080 -->
     <gae.port>8080</gae.port>
+    <wicket.version>1.4.15</wicket.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket</artifactId>
-      <version>1.4.15</version>
+      <version>${wicket.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-ioc</artifactId>
+      <version>${wicket.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-guice</artifactId>
+      <version>${wicket.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.wicket</groupId>
+      <artifactId>wicket-extensions</artifactId>
+      <version>${wicket.version}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -44,6 +61,12 @@
       <artifactId>servlet-api</artifactId>
       <version>2.5</version>
       <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.appengine</groupId>
+      <artifactId>appengine-api-1.0-sdk</artifactId>
+      <version>${gae.version}</version>
+      <!--  scope>provided</scope -->
     </dependency>
 
     <!-- GAE libraries for local testing as described here: http://code.google.com/appengine/docs/java/howto/unittesting.html -->
@@ -128,10 +151,10 @@
       <plugin>
         <groupId>net.kindleit</groupId>
         <artifactId>maven-gae-plugin</artifactId>
-        <version>0.7.3</version>
+        <version>0.8.1</version>
         <configuration>
           <serverId>appengine.google.com</serverId>
-          <sdkDir>${gae.home}</sdkDir>
+          <!-- <sdkDir>${gae.home}</sdkDir> -->
         </configuration>
         <dependencies>
           <dependency>

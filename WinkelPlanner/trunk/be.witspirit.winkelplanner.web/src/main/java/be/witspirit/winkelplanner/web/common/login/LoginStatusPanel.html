@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<head>
+  <title>Test Wrapper</title>
+</head>
+<body>
+<wicket:panel>
+  <span wicket:id="status">[Status Fragment Comes Here]</span>
+  
+  <wicket:fragment wicket:id="notLoggedIn">
+    <a href="#" wicket:id="login">Aanmelden</a>
+  </wicket:fragment>
+
+  <wicket:fragment wicket:id="loggedIn">
+    <span wicket:id="username">[Username]</span> | <a href="#" wicket:id="logout">Afmelden</a>
+  </wicket:fragment>
+  
+</wicket:panel>
+</body>
+</html>
