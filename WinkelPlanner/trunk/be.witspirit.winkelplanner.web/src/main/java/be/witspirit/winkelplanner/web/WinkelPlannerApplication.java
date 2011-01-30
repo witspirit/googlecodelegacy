@@ -11,8 +11,14 @@ import org.apache.wicket.session.ISessionStore;
 
 import be.witspirit.winkelplanner.HomePage;
 
-public class WinkelPlannerApplication extends WebApplication
-{
+import com.google.appengine.api.users.UserService;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+public class WinkelPlannerApplication extends WebApplication {     
+    
+    private Injector injector;
+    
     @Override
     public Class<? extends Page> getHomePage() {
       return HomePage.class;
@@ -22,9 +28,14 @@ public class WinkelPlannerApplication extends WebApplication
     protected void init() {
       super.init();
       getResourceSettings().setResourcePollFrequency(null);
-      addComponentInstantiationListener(new GuiceComponentInjector(this, new WinkelPlannerModule()));
+      this.injector = Guice.createInjector(new WinkelPlannerModule());
+      addComponentInstantiationListener(new GuiceComponentInjector(this, injector));
       
       mountBookmarkablePage("HomePage.html", HomePage.class);
+    }
+    
+    public void inject(Object target) {
+        injector.injectMembers(target);
     }
 
     @Override
@@ -34,6 +45,6 @@ public class WinkelPlannerApplication extends WebApplication
     
     @Override
     public Session newSession(Request request, Response response) {
-        return new WinkelPlannerSession(request);
+        return new WinkelPlannerSession(request, injector.getInstance(UserService.class));
     }
 }
